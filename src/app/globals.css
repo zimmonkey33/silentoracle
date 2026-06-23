@@ -1,0 +1,195 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* ============================================================
+   SILENT ORACLE DARK THEME — orange/amber on deep black
+   Applied globally via .dark on <html>
+   ============================================================ */
+.dark {
+  --background: #080500;
+  --foreground: #FFFFFF;
+  --card: #120c00;
+  --card-foreground: #FFFFFF;
+  --popover: #0f0a00;
+  --popover-foreground: #FFFFFF;
+  --primary: #FF7A00;
+  --primary-foreground: #000000;
+  --secondary: #1a0d00;
+  --secondary-foreground: #FFFFFF;
+  --muted: #0f0900;
+  --muted-foreground: #888888;
+  --accent: #160e00;
+  --accent-foreground: #FFB340;
+  --destructive: #FF4444;
+  --border: #2a1800;
+  --input: #0a0600;
+  --ring: #FF7A00;
+  --chart-1: #FF7A00;
+  --chart-2: #FFB340;
+  --chart-3: #FFD700;
+  --chart-4: #FF5500;
+  --chart-5: #C084FC;
+  --sidebar: #0f0a00;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #FF7A00;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #160e00;
+  --sidebar-accent-foreground: #FFB340;
+  --sidebar-border: #2a1800;
+  --sidebar-ring: #FF7A00;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  /* Dark theme is always on for the Silent Oracle identity */
+  html {
+    color-scheme: dark;
+  }
+  html.dark body {
+    background-color: #080500;
+    color: #FFFFFF;
+  }
+}
+
+/* Small helper utilities used throughout the app */
+@layer utilities {
+  .oracle-glow {
+    text-shadow: 0 0 50px rgba(255, 122, 0, 0.35);
+  }
+  .oracle-card {
+    background: #120c00;
+    border: 1px solid #2a1800;
+    border-radius: 10px;
+  }
+  .oracle-card-hi {
+    background: #120c00;
+    border: 1px solid rgba(255, 122, 0, 0.5);
+    border-radius: 10px;
+  }
+  .oracle-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #888888;
+    text-transform: uppercase;
+  }
+  .oracle-trait {
+    display: inline-block;
+    padding: 3px 9px;
+    background: #1a0d00;
+    border: 1px solid #2a1800;
+    border-radius: 20px;
+    font-size: 10px;
+    margin: 2px;
+    color: #CCCCCC;
+  }
+  .oracle-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .oracle-scrollbar::-webkit-scrollbar-track {
+    background: #0f0900;
+  }
+  .oracle-scrollbar::-webkit-scrollbar-thumb {
+    background: #3a2000;
+    border-radius: 4px;
+  }
+  .oracle-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #5a3000;
+  }
+  .oracle-fade-in {
+    animation: oracle-fade-in 0.4s ease;
+  }
+  @keyframes oracle-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .oracle-pulse {
+    animation: oracle-pulse 1.5s infinite;
+  }
+  @keyframes oracle-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+}
