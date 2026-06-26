@@ -5,6 +5,7 @@ import { T } from "@/lib/oracle/theme";
 import { calcDayLP, calcSecondaryEnergy, getZodiac, reduceLP } from "@/lib/oracle/calc";
 import { LP, DAILY_DESC } from "@/lib/oracle/data";
 import { OracleCard, OracleLabel, BigNumber, MiniBox, OracleHr } from "./primitives";
+import { ZodiacEmojiButton } from "./ZodiacModal";
 
 export function DailyEnergyTab() {
   const [now, setNow] = useState<Date | null>(null);
@@ -55,9 +56,11 @@ export function DailyEnergyTab() {
       <OracleCard highlight>
         <div style={{ textAlign: "center" }}>
           <OracleLabel>{nowStr}</OracleLabel>
-          <div style={{ fontSize: "32px", marginBottom: "8px" }}>{todayZodiac.emoji}</div>
+          <div style={{ fontSize: "32px", marginBottom: "8px", display: "inline-flex" }}>
+            <ZodiacEmojiButton sign={todayZodiac} size={32} />
+          </div>
           <div style={{ fontSize: "11px", color: T.textDim, letterSpacing: "2px" }}>
-            YEAR OF THE {todayZodiac.name.toUpperCase()}
+            YEAR OF THE {todayZodiac.name.toUpperCase()} · TAP TO LEARN
           </div>
           <div style={{ margin: "16px 0" }}>
             <BigNumber n={primary} color={T.orange} size={96} />

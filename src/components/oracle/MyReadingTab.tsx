@@ -14,6 +14,7 @@ import {
   getPersonalMonthInfo,
 } from "@/lib/oracle/calc";
 import { DAILY_DESC } from "@/lib/oracle/data";
+import { ZodiacEmojiButton } from "./ZodiacModal";
 import {
   OracleCard,
   OracleLabel,
@@ -221,8 +222,10 @@ export function MyReadingTab({
                   textAlign: "center",
                 }}
               >
-                <div style={{ fontSize: "36px" }}>{profile.bz.emoji}</div>
-                <div style={{ fontSize: "10px", color: T.textDim, marginTop: "4px" }}>CHINESE</div>
+                <div style={{ fontSize: "36px", display: "inline-flex" }}>
+                  <ZodiacEmojiButton sign={profile.bz} size={36} />
+                </div>
+                <div style={{ fontSize: "10px", color: T.textDim, marginTop: "4px" }}>CHINESE · TAP TO LEARN</div>
                 <div style={{ fontSize: "14px", color: T.orange, fontWeight: "bold" }}>
                   {profile.bz.name}
                 </div>

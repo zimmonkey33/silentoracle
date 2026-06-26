@@ -5,6 +5,7 @@ import { T } from "@/lib/oracle/theme";
 import { calcLP, getZodiac, getWesternZodiac, luckyNums, zodiacRelation } from "@/lib/oracle/calc";
 import { LP } from "@/lib/oracle/data";
 import { OracleCard, OracleLabel, OracleInput, OracleButton, BigNumber, MiniBox, Trait, OracleHr } from "./primitives";
+import { ZodiacEmojiButton } from "./ZodiacModal";
 
 interface CompatibilityResult {
   lp1: number;
@@ -183,14 +184,18 @@ export function CompatibilityTab() {
           <OracleCard>
             <OracleLabel>CHINESE ZODIAC MATCH</OracleLabel>
             <div className="grid grid-cols-2 gap-3">
-              <MiniBox label={`PERSON 1 — ${result.z1.name}`} color={T.orange}>
-                <div style={{ fontSize: "40px" }}>{result.z1.emoji}</div>
+              <MiniBox label={`PERSON 1 — ${result.z1.name} · TAP`} color={T.orange}>
+                <div style={{ fontSize: "40px", display: "inline-flex" }}>
+                  <ZodiacEmojiButton sign={result.z1} size={40} />
+                </div>
                 <div style={{ fontSize: "10px", color: T.textDim, marginTop: "4px" }}>
                   Friends: {result.z1.friends.join(", ")}
                 </div>
               </MiniBox>
-              <MiniBox label={`PERSON 2 — ${result.z2.name}`} color={T.orangeHi}>
-                <div style={{ fontSize: "40px" }}>{result.z2.emoji}</div>
+              <MiniBox label={`PERSON 2 — ${result.z2.name} · TAP`} color={T.orangeHi}>
+                <div style={{ fontSize: "40px", display: "inline-flex" }}>
+                  <ZodiacEmojiButton sign={result.z2} size={40} />
+                </div>
                 <div style={{ fontSize: "10px", color: T.textDim, marginTop: "4px" }}>
                   Friends: {result.z2.friends.join(", ")}
                 </div>

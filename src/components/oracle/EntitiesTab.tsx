@@ -21,6 +21,7 @@ import {
   OracleHr,
   EntityIcon,
 } from "./primitives";
+import { ZodiacEmojiButton } from "./ZodiacModal";
 import type { OracleProfile } from "./MyReadingTab";
 
 interface EntityResult {
@@ -190,8 +191,10 @@ export function EntitiesTab({ profile }: { profile: OracleProfile | null }) {
 
             {/* Zodiac + Lucky + LP calc */}
             <div className="grid grid-cols-3 gap-2 mb-3">
-              <MiniBox label="ZODIAC" color={T.orangeHi}>
-                <div style={{ fontSize: "28px" }}>{result.zodiac?.emoji}</div>
+              <MiniBox label="ZODIAC · TAP TO LEARN" color={T.orangeHi}>
+                <div style={{ fontSize: "28px", display: "inline-flex" }}>
+                  {result.zodiac && <ZodiacEmojiButton sign={result.zodiac} size={28} />}
+                </div>
                 <div style={{ fontSize: "12px", color: T.orangeHi, fontWeight: "bold", marginTop: "4px" }}>
                   {result.zodiac?.name}
                 </div>

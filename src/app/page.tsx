@@ -39,9 +39,9 @@ import { OracleChatTab } from "@/components/oracle/OracleChatTab";
 type Mode = "analyzer" | "oracle";
 
 const ENTITY_OPTIONS: { value: EntityType; label: string; icon: React.ComponentType<{ className?: string }>; desc: string }[] = [
-  { value: "person",   label: "Person",       icon: User2,      desc: "Birth name + birth date → full GG33 life analysis" },
-  { value: "company",  label: "Company",      icon: Building2,  desc: "Company name + founding date → GG33 numerology + Chinese zodiac" },
-  { value: "country",  label: "Country",      icon: Globe,      desc: "Country name + founding/independence date → GG33 numerology + Chinese zodiac" },
+  { value: "person",   label: "Person",       icon: User2,      desc: "Birth name + birth date → full numerology life analysis" },
+  { value: "company",  label: "Company",      icon: Building2,  desc: "Company name + founding date → numerology + Chinese zodiac" },
+  { value: "country",  label: "Country",      icon: Globe,      desc: "Country name + founding/independence date → numerology + Chinese zodiac" },
   { value: "sports",   label: "Sports Event", icon: Trophy,     desc: "Team 1 vs Team 2 + event date → predicted winner" },
 ];
 
@@ -188,7 +188,7 @@ export default function Home() {
             </div>
             <div>
               <h1 className="text-base font-bold leading-tight sm:text-lg" style={{ color: T.text }}>
-                Silent Oracle <span style={{ color: T.orange }}>× GG33</span>
+                Silent <span style={{ color: T.orange }}>Oracle</span>
               </h1>
               <p className="text-xs" style={{ color: T.textDim }}>
                 Numerology · Astrology · Energy Intelligence
@@ -240,7 +240,7 @@ export default function Home() {
           }}
         >
           <Sparkles className="size-3" style={{ color: T.orange }} />
-          Strict GG33: Pythagorean name math · Master Numbers 11/22/33 · Karmic Debt 13/14/16/19 · Birthday-aware Personal Year · Wealth-compound 28 · Chinese zodiac trines (Cat not Rabbit) · Silent Oracle AI guidance
+          Strict methodology: Pythagorean name math · Master Numbers 11/22/33 · Karmic Debt 13/14/16/19 · Birthday-aware Personal Year · Wealth-compound 28 · Chinese zodiac trines (Cat not Rabbit) · AI Oracle guidance
         </div>
         <h2
           className="mx-auto mt-4 max-w-4xl text-balance font-bold tracking-tight oracle-glow"
