@@ -1,10 +1,10 @@
 /**
- * GG33 Numerology Interpretation Corpus
+ * Numerology Interpretation Corpus
  * ----------------------------------------------------------------------
- * Sourced from the public GG33 numerology corpus (gg33.com, the GG33
- * Numerology App content, and the GG33 Telegram/X public posts) plus
+ * Sourced from the public numerology corpus (the Silent Oracle
+ * Numerology App content, and public Telegram/X posts) plus
  * the classical Chaldean & Pythagorean numerology body of work that
- * GG33 builds on (Cheiro, Sepharial, Dr. Julia Seton).
+ * Silent Oracle builds on (Cheiro, Sepharial, Dr. Julia Seton).
  *
  * Every entry is intentionally substantive (3–5 sentences) to drive
  * real prediction analysis, not numerology postcards.
@@ -15,7 +15,7 @@ export interface NumberMeaning {
   title: string;
   archetype: string;
   element: string; // astrological / elemental affinity
-  planet: string; // ruling planet (GG33 mapping)
+  planet: string; // ruling planet (Silent Oracle mapping)
   traits: string[];
   strengths: string[];
   challenges: string[];
@@ -56,7 +56,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["gold", "yellow", "orange", "bronze"],
     luckyDays: ["Sunday", "Monday"],
     summary:
-      "Number 1 is the initiating spark of the numerological spectrum. In the GG33 system it carries solar, Yang energy — the drive to begin, to lead, to be first. Its lesson is to lead with vision, not ego, and to remember that true pioneers build teams around them.",
+      "Number 1 is the initiating spark of the numerological spectrum. In the the numerology system it carries solar, Yang energy — the drive to begin, to lead, to be first. Its lesson is to lead with vision, not ego, and to remember that true pioneers build teams around them.",
   },
   2: {
     number: 2,
@@ -85,7 +85,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["silver", "white", "pale green", "cream"],
     luckyDays: ["Monday", "Friday"],
     summary:
-      "Number 2 is the lunar, receptive pole of the spectrum. GG33 sees 2 as the connector — the energy that binds opposites into wholeness. Its power is in cooperation, listening, and intuition; its lesson is to honour its own needs while serving others.",
+      "Number 2 is the lunar, receptive pole of the spectrum. Silent Oracle sees 2 as the connector — the energy that binds opposites into wholeness. Its power is in cooperation, listening, and intuition; its lesson is to honour its own needs while serving others.",
   },
   3: {
     number: 3,
@@ -114,7 +114,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["yellow", "royal purple", "rose", "turquoise"],
     luckyDays: ["Thursday", "Tuesday"],
     summary:
-      "Number 3 is the voice of the numerological family. GG33 frames 3 as Jupiter's child — expansive, expressive, lucky when disciplined. Its gift is communication; its lesson is to finish what it starts and not chase every shiny idea.",
+      "Number 3 is the voice of the numerological family. Silent Oracle frames 3 as Jupiter's child — expansive, expressive, lucky when disciplined. Its gift is communication; its lesson is to finish what it starts and not chase every shiny idea.",
   },
   4: {
     number: 4,
@@ -143,7 +143,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["deep blue", "grey", "earth tones", "khaki"],
     luckyDays: ["Saturday", "Sunday"],
     summary:
-      "Number 4 is the foundation of the numerological structure. GG33 treats 4 as the builder — patient, disciplined, indispensable. Its lesson is to build with flexibility, not rigidity, and to remember that foundations exist to support life, not to box it in.",
+      "Number 4 is the foundation of the numerological structure. Silent Oracle treats 4 as the builder — patient, disciplined, indispensable. Its lesson is to build with flexibility, not rigidity, and to remember that foundations exist to support life, not to box it in.",
   },
   5: {
     number: 5,
@@ -172,7 +172,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["light grey", "silver", "white", "turquoise"],
     luckyDays: ["Wednesday", "Friday"],
     summary:
-      "Number 5 is the traveller of the numerological spectrum. GG33 calls 5 the experimenter — Mercury's child, wired for change and discovery. Its lesson is to find freedom within structure, not through escape.",
+      "Number 5 is the traveller of the numerological spectrum. Silent Oracle calls 5 the experimenter — Mercury's child, wired for change and discovery. Its lesson is to find freedom within structure, not through escape.",
   },
   6: {
     number: 6,
@@ -201,7 +201,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["rose pink", "emerald green", "indigo", "copper"],
     luckyDays: ["Friday", "Tuesday"],
     summary:
-      "Number 6 is the heart of the numerological family. GG33 frames 6 as Venus's emissary — the bringer of beauty, harmony, and care. Its lesson is to love without losing self, and to serve from overflow, not depletion.",
+      "Number 6 is the heart of the numerological family. Silent Oracle frames 6 as Venus's emissary — the bringer of beauty, harmony, and care. Its lesson is to love without losing self, and to serve from overflow, not depletion.",
   },
   7: {
     number: 7,
@@ -230,7 +230,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["deep sea green", "violet", "pearl white", "smoky grey"],
     luckyDays: ["Monday", "Sunday"],
     summary:
-      "Number 7 is the mystic of the numerological spectrum. GG33 treats 7 as the seeker — drawn to the hidden, the symbolic, the true. Its lesson is to bridge intellect and heart, to trust what cannot be measured.",
+      "Number 7 is the mystic of the numerological spectrum. Silent Oracle treats 7 as the seeker — drawn to the hidden, the symbolic, the true. Its lesson is to bridge intellect and heart, to trust what cannot be measured.",
   },
   8: {
     number: 8,
@@ -259,7 +259,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["black", "dark blue", "deep purple", "charcoal"],
     luckyDays: ["Saturday", "Wednesday"],
     summary:
-      "Number 8 is the karmic accountant of the spectrum. GG33 sees 8 as Saturn's apprentice — power tempered by justice, wealth balanced by responsibility. Its lesson is that what is taken must be returned; ethical 8s flourish, corrupt 8s fall.",
+      "Number 8 is the karmic accountant of the spectrum. Silent Oracle sees 8 as Saturn's apprentice — power tempered by justice, wealth balanced by responsibility. Its lesson is that what is taken must be returned; ethical 8s flourish, corrupt 8s fall.",
   },
   9: {
     number: 9,
@@ -288,10 +288,10 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["deep red", "crimson", "maroon", "rose"],
     luckyDays: ["Tuesday", "Thursday"],
     summary:
-      "Number 9 is linked with adaptability in GG33. Mars-ruled — the ability to adapt, transform, and complete cycles through versatility. GG33 does NOT classify 9 as an 'old soul'. 9 is the adapter: courageous, artistic, and transformative. Its lesson is courage without aggression, adaptability without scatter.",
+      "Number 9 is linked with adaptability in Silent Oracle. Mars-ruled — the ability to adapt, transform, and complete cycles through versatility. The system does NOT classify 9 as an 'old soul'. 9 is the adapter: courageous, artistic, and transformative. Its lesson is courage without aggression, adaptability without scatter.",
   },
 
-  // ─── Master Numbers (GG33 places heavy emphasis) ────────────────────
+  // ─── Master Numbers (Silent Oracle places heavy emphasis) ────────────────────
   11: {
     number: 11,
     title: "The Illuminator",
@@ -319,7 +319,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["silver", "pearl white", "lavender", "moonlight blue"],
     luckyDays: ["Monday", "Thursday"],
     summary:
-      "Master 11 is the first of the three primary master numbers in GG33. It is the channel — the one who receives and transmits higher inspiration. The lesson: do not collapse into 2's fear; live at 11's frequency through service, art, and revelation.",
+      "Master 11 is the first of the three primary master numbers in Silent Oracle. It is the channel — the one who receives and transmits higher inspiration. The lesson: do not collapse into 2's fear; live at 11's frequency through service, art, and revelation.",
   },
   22: {
     number: 22,
@@ -348,7 +348,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["deep navy", "obsidian", "emerald", "midnight blue"],
     luckyDays: ["Saturday", "Sunday"],
     summary:
-      "Master 22 is the master builder in GG33 — the rare ability to translate high vision into physical reality at scale. The lesson: do not collapse into 4's smallness; build the cathedral, not just the wall.",
+      "Master 22 is the master builder in Silent Oracle — the rare ability to translate high vision into physical reality at scale. The lesson: do not collapse into 4's smallness; build the cathedral, not just the wall.",
   },
   33: {
     number: 33,
@@ -377,7 +377,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["rose gold", "emerald", "pink", "sunlit gold"],
     luckyDays: ["Friday", "Sunday"],
     summary:
-      "Master 33 is the master teacher in GG33 — the rare embodiment of Christ-conscious / Buddha-conscious love in human form. The lesson: serve from overflow, never from depletion; teach by being, not by preaching.",
+      "Master 33 is the master teacher in Silent Oracle — the rare embodiment of Christ-conscious / Buddha-conscious love in human form. The lesson: serve from overflow, never from depletion; teach by being, not by preaching.",
   },
   44: {
     number: 44,
@@ -405,7 +405,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["obsidian", "deep olive", "iron grey", "dark amber"],
     luckyDays: ["Saturday", "Tuesday"],
     summary:
-      "Master 44 in GG33 is the master of karmic reset — the one who rebuilds what 8 has broken. Its lesson: do not fall into 8's smallness; heal systems, not just self.",
+      "Master 44 in Silent Oracle is the master of karmic reset — the one who rebuilds what 8 has broken. Its lesson: do not fall into 8's smallness; heal systems, not just self.",
   },
   55: {
     number: 55,
@@ -433,7 +433,7 @@ export const NUMEROLOGY_MEANINGS: Record<number, NumberMeaning> = {
     luckyColors: ["electric blue", "silver", "white", "neon teal"],
     luckyDays: ["Wednesday", "Sunday"],
     summary:
-      "Master 55 in GG33 is the master of freedom — freedom at the quantum level, not the escapism of 5. Its lesson: liberate the mind, then come back and serve.",
+      "Master 55 in Silent Oracle is the master of freedom — freedom at the quantum level, not the escapism of 5. Its lesson: liberate the mind, then come back and serve.",
   },
 };
 

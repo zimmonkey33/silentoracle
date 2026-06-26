@@ -1,12 +1,12 @@
 /**
- * GG33 Synthesis Engine — PURE NUMEROLOGY (no Chinese astrology)
+ * Numerology Synthesis Engine — PURE NUMEROLOGY (no Chinese astrology)
  * ----------------------------------------------------------------------
  * Produces a unified personality analysis, life forecast, and
- * recommendations from the GG33 chart alone.
+ * recommendations from the numerology chart alone.
  */
 
-import type { Gg33Chart } from "../numerology/gg33";
-import { personalYearForEffectiveYear } from "../numerology/gg33";
+import type { NumerologyChart } from "../numerology/numerology-engine";
+import { personalYearForEffectiveYear } from "../numerology/numerology-engine";
 import {
   NUMEROLOGY_MEANINGS,
   PERSONAL_YEAR_FORECASTS,
@@ -20,8 +20,8 @@ export interface PredictionReport {
   headline: string;
   oneLineArchetype: string;
 
-  // ── GG33 Compound Classifications (master + karmic debt flags) ─────
-  gg33Classification: {
+  // ── Compound Classifications (master + karmic debt flags) ─────
+  numerologyClassification: {
     lifePath: { compound: number; root: number; isMaster: boolean; title: string; vibration: string };
     birthDay: { compound: number; root: number; isMaster: boolean; title: string; vibration: string };
     expression: { compound: number; root: number; isMaster: boolean; title: string; vibration: string };
@@ -95,13 +95,13 @@ export interface PredictionReport {
 }
 
 export interface SynthesisInput {
-  gg33: Gg33Chart;
+  chart: NumerologyChart;
   birth: { year: number; month: number; day: number };
   age: number;
   currentYear: number;
 }
 
-// Compatibility table from the GG33 spec
+// Compatibility table from the numerology spec
 const NATURAL_ALLIES: Record<number, number[]> = {
   1: [5], 2: [6], 3: [9], 4: [8], 5: [1],
   6: [2], 7: [7], 8: [4], 9: [3],
@@ -112,24 +112,24 @@ const CHALLENGING_PAIRS: Record<number, number[]> = {
 };
 
 export function synthesize(input: SynthesisInput): PredictionReport {
-  const { gg33, birth, age, currentYear } = input;
+  const { chart, birth, age, currentYear } = input;
 
-  const lpMeaning = getMeaning(gg33.lifePath.root) ?? NUMEROLOGY_MEANINGS[1];
-  const pyForecast = PERSONAL_YEAR_FORECASTS[gg33.personalYear.number] ?? PERSONAL_YEAR_FORECASTS[1];
+  const lpMeaning = getMeaning(chart.lifePath.root) ?? NUMEROLOGY_MEANINGS[1];
+  const pyForecast = PERSONAL_YEAR_FORECASTS[chart.personalYear.number] ?? PERSONAL_YEAR_FORECASTS[1];
 
   // ── Compound classification block ──────────────────────────────────
-  const lpC = getCompoundMeaning(gg33.lifePath.root);
-  const bdC = getCompoundMeaning(gg33.birthDay.root);
-  const expC = getCompoundMeaning(gg33.expression.root);
-  const soulC = getCompoundMeaning(gg33.soulUrge.root);
-  const persC = getCompoundMeaning(gg33.personality.root);
+  const lpC = getCompoundMeaning(chart.lifePath.root);
+  const bdC = getCompoundMeaning(chart.birthDay.root);
+  const expC = getCompoundMeaning(chart.expression.root);
+  const soulC = getCompoundMeaning(chart.soulUrge.root);
+  const persC = getCompoundMeaning(chart.personality.root);
 
-  const masterCount = [gg33.lifePath, gg33.expression, gg33.soulUrge, gg33.personality].filter(x => x.isMaster).length;
+  const masterCount = [chart.lifePath, chart.expression, chart.soulUrge, chart.personality].filter(x => x.isMaster).length;
 
   const overallVerdict = null;
 
   const overallSummary =
-    `GG33 numerology analysis. ${masterCount > 0 ? `${masterCount} Master Number${masterCount === 1 ? "" : "s"} in the core chart. ` : "No master numbers in the core chart — stable, workable energy. "}Life Path ${gg33.lifePath.root}, Expression ${gg33.expression.root}, Soul Urge ${gg33.soulUrge.root}, Personality ${gg33.personality.root}.`;
+    `Numerology analysis. ${masterCount > 0 ? `${masterCount} Master Number${masterCount === 1 ? "" : "s"} in the core chart. ` : "No master numbers in the core chart — stable, workable energy. "}Life Path ${chart.lifePath.root}, Expression ${chart.expression.root}, Soul Urge ${chart.soulUrge.root}, Personality ${chart.personality.root}.`;
 
   const wealthHighlight = null;
 
@@ -143,7 +143,7 @@ export function synthesize(input: SynthesisInput): PredictionReport {
 
   const hiddenPotential =
     masterCount > 0
-      ? `You carry a Master Number (${[gg33.lifePath, gg33.expression, gg33.soulUrge, gg33.personality].filter(x => x.isMaster).map(x => x.root).join(", ")}). Per GG33: a Master is a calling, not a guarantee — must be consciously activated. You will experience higher highs AND lower lows than non-master charts. Shadows include anxiety (11), overwhelm (22), or martyrdom (33).`
+      ? `You carry a Master Number (${[chart.lifePath, chart.expression, chart.soulUrge, chart.personality].filter(x => x.isMaster).map(x => x.root).join(", ")}). Per chart: a Master is a calling, not a guarantee — must be consciously activated. You will experience higher highs AND lower lows than non-master charts. Shadows include anxiety (11), overwhelm (22), or martyrdom (33).`
       : `Your chart contains no Master Numbers in the core triad — this grants stability. Gifts are accessible, embodied, and consistent. Mastery for you comes through depth of practice, not karmic pressure.`;
 
   const shadow = challenges[0]
@@ -166,23 +166,23 @@ export function synthesize(input: SynthesisInput): PredictionReport {
     22: ["small-scale work with no vision", "purely theoretical work with no execution", "fragmented scattered roles"],
     33: ["cynical or harmful industries", "purely transactional work", "isolated work without service"],
   };
-  const avoid = avoidMap[gg33.lifePath.root] ?? ["work that misaligns with your core archetype"];
+  const avoid = avoidMap[chart.lifePath.root] ?? ["work that misaligns with your core archetype"];
   const idealEnvironment = `An environment that lets your ${lpMeaning.title} (${lpMeaning.archetype}) energy express fully — aligns with your ruling planet (${lpMeaning.planet}).`;
   const wealthStyle =
-    gg33.lifePath.root === 8 ? "Wealth comes through disciplined accumulation, long-term assets, and ethical stewardship of power."
-    : gg33.lifePath.root === 5 ? "Wealth comes through versatility, multiple income streams, and opportunistic pivots — save aggressively during windfall years."
-    : gg33.lifePath.root === 6 ? "Wealth comes through relationship capital, aesthetic sensibility, and steady service — avoid speculative risk."
-    : gg33.lifePath.root === 1 ? "Wealth comes through pioneering ventures and being first to market — founding equity matters more than salary."
-    : gg33.lifePath.root === 3 ? "Wealth comes through communication, brand, and creative IP — monetize your voice."
-    : gg33.lifePath.root === 9 ? "Wealth comes through completing cycles and closing what others abandon — Mars-ruled courage to finish brings material reward."
-    : gg33.lifePath.root === 11 ? "Wealth comes through inspired leadership — channel higher vision into a movement or brand."
-    : gg33.lifePath.root === 22 ? "Wealth comes through building institutions at scale — master-builder equity is the path."
-    : gg33.lifePath.root === 33 ? "Wealth comes through teaching, healing, and embodying universal love at scale."
+    chart.lifePath.root === 8 ? "Wealth comes through disciplined accumulation, long-term assets, and ethical stewardship of power."
+    : chart.lifePath.root === 5 ? "Wealth comes through versatility, multiple income streams, and opportunistic pivots — save aggressively during windfall years."
+    : chart.lifePath.root === 6 ? "Wealth comes through relationship capital, aesthetic sensibility, and steady service — avoid speculative risk."
+    : chart.lifePath.root === 1 ? "Wealth comes through pioneering ventures and being first to market — founding equity matters more than salary."
+    : chart.lifePath.root === 3 ? "Wealth comes through communication, brand, and creative IP — monetize your voice."
+    : chart.lifePath.root === 9 ? "Wealth comes through completing cycles and closing what others abandon — Mars-ruled courage to finish brings material reward."
+    : chart.lifePath.root === 11 ? "Wealth comes through inspired leadership — channel higher vision into a movement or brand."
+    : chart.lifePath.root === 22 ? "Wealth comes through building institutions at scale — master-builder equity is the path."
+    : chart.lifePath.root === 33 ? "Wealth comes through teaching, healing, and embodying universal love at scale."
     : "Wealth comes through mastery of a specific craft and patient compounding of reputation.";
 
   // ── Relationships ───────────────────────────────────────────────────
-  const allies = NATURAL_ALLIES[gg33.lifePath.root] ?? [];
-  const challenging = CHALLENGING_PAIRS[gg33.lifePath.root] ?? [];
+  const allies = NATURAL_ALLIES[chart.lifePath.root] ?? [];
+  const challenging = CHALLENGING_PAIRS[chart.lifePath.root] ?? [];
   const bestMatches = allies.map(n => `Life Path ${n}`);
   const challengingMatches = challenging.map(n => `Life Path ${n}`);
   const relationshipStyle = `${lpMeaning.archetype}. In love you are ${lpMeaning.traits.slice(0, 2).join(" and ")}, but you also need ${lpMeaning.traits[0]} from a partner. The right partner honours both.`;
@@ -190,25 +190,25 @@ export function synthesize(input: SynthesisInput): PredictionReport {
 
   // ── Health ──────────────────────────────────────────────────────────
   const practices: string[] = [lpMeaning.health];
-  if (gg33.lifePath.root === 11) practices.push("Protect your nervous system — limit stimulants, prioritize sleep, ground in nature");
-  if (gg33.lifePath.root === 22) practices.push("Manage cortisol through disciplined routine — your scale of vision creates physical stress");
-  if (gg33.lifePath.root === 33) practices.push("Practice receiving — your caregiver energy can deplete if you don't let others care for you");
+  if (chart.lifePath.root === 11) practices.push("Protect your nervous system — limit stimulants, prioritize sleep, ground in nature");
+  if (chart.lifePath.root === 22) practices.push("Manage cortisol through disciplined routine — your scale of vision creates physical stress");
+  if (chart.lifePath.root === 33) practices.push("Practice receiving — your caregiver energy can deplete if you don't let others care for you");
 
   // ── Lucky resonances ────────────────────────────────────────────────
-  const luckyNumbers = Array.from(new Set([gg33.lifePath.root, ...lpMeaning.luckyNumbers])).slice(0, 6);
+  const luckyNumbers = Array.from(new Set([chart.lifePath.root, ...lpMeaning.luckyNumbers])).slice(0, 6);
   const luckyColors = lpMeaning.luckyColors.slice(0, 5);
   const luckyDays = lpMeaning.luckyDays;
 
   // ── Personal Year forecast ──────────────────────────────────────────
   const combinedGuidance =
-    `Your GG33 Personal Year is ${gg33.personalYear.number} (${pyForecast.theme}), based on effective year ${gg33.personalYear.effectiveYear} (${gg33.personalYear.birthdayPassed ? "birthday has passed" : "before birthday — still in prior year's cycle"}). ` +
-    (gg33.personalYear.number === 1 ? "Launch new ventures. Plant seeds for the next 9-year cycle. Hesitation now costs 9 years of momentum."
-    : gg33.personalYear.number === 9 ? "Your 9-year cycle is closing. Release what is finishing — do not start major new ventures until next personal year 1."
-    : gg33.personalYear.number === 5 ? "Change is the dominant theme. Say yes to invitations, but protect your sleep and your core relationships."
-    : gg33.personalYear.number === 8 ? "Harvest year — money, recognition, and power increase. Karmic justice — what you have built ethically returns."
-    : gg33.personalYear.number === 11 ? "Master illumination year — inspiration flows, others are drawn to your light. Operate at 11, not collapsed into 2."
-    : gg33.personalYear.number === 22 ? "Master builder year — large-scale projects materialise. Operate at 22, not collapsed into 4."
-    : gg33.personalYear.number === 33 ? "Master teacher year — embodiment of love in service. Operate at 33, not collapsed into 6."
+    `Your Personal Year is ${chart.personalYear.number} (${pyForecast.theme}), based on effective year ${chart.personalYear.effectiveYear} (${chart.personalYear.birthdayPassed ? "birthday has passed" : "before birthday — still in prior year's cycle"}). ` +
+    (chart.personalYear.number === 1 ? "Launch new ventures. Plant seeds for the next 9-year cycle. Hesitation now costs 9 years of momentum."
+    : chart.personalYear.number === 9 ? "Your 9-year cycle is closing. Release what is finishing — do not start major new ventures until next personal year 1."
+    : chart.personalYear.number === 5 ? "Change is the dominant theme. Say yes to invitations, but protect your sleep and your core relationships."
+    : chart.personalYear.number === 8 ? "Harvest year — money, recognition, and power increase. Karmic justice — what you have built ethically returns."
+    : chart.personalYear.number === 11 ? "Master illumination year — inspiration flows, others are drawn to your light. Operate at 11, not collapsed into 2."
+    : chart.personalYear.number === 22 ? "Master builder year — large-scale projects materialise. Operate at 22, not collapsed into 4."
+    : chart.personalYear.number === 33 ? "Master teacher year — embodiment of love in service. Operate at 33, not collapsed into 6."
     : `Align your actions with the Personal Year theme — it is the dominant timing signal this year.`);
 
   // ── Roadmap: next 9 personal years ──────────────────────────────────
@@ -235,7 +235,7 @@ export function synthesize(input: SynthesisInput): PredictionReport {
       yearAtAge,
     );
     const f = PERSONAL_YEAR_FORECASTS[py] ?? PERSONAL_YEAR_FORECASTS[1];
-    const pn = gg33.pinnacles.find(p => ageAt >= p.ageStart && ageAt <= p.ageEnd);
+    const pn = chart.pinnacles.find(p => ageAt >= p.ageStart && ageAt <= p.ageEnd);
     roadmap.push({
       age: ageAt,
       personalYear: py,
@@ -245,48 +245,48 @@ export function synthesize(input: SynthesisInput): PredictionReport {
   }
 
   // ── Headline & archetype ────────────────────────────────────────────
-  const headline = `${lpMeaning.title} — Life Path ${gg33.lifePath.root}${gg33.lifePath.isMaster ? " (MASTER)" : ""}`;
+  const headline = `${lpMeaning.title} — Life Path ${chart.lifePath.root}${chart.lifePath.isMaster ? " (MASTER)" : ""}`;
   const oneLineArchetype =
-    `${lpMeaning.archetype} — animated by ${lpMeaning.planet}. Birthday Number (Partial Energy) ${gg33.birthDay.root}, Expression ${gg33.expression.root}, Soul Urge ${gg33.soulUrge.root}, Personality ${gg33.personality.root}.`;
+    `${lpMeaning.archetype} — animated by ${lpMeaning.planet}. Birthday Number (Partial Energy) ${chart.birthDay.root}, Expression ${chart.expression.root}, Soul Urge ${chart.soulUrge.root}, Personality ${chart.personality.root}.`;
 
   // ── Final synthesis ─────────────────────────────────────────────────
   const finalSynthesis =
-    `Your GG33 chart reveals Life Path ${gg33.lifePath.root}${gg33.lifePath.isMaster ? " (Master Number — never reduce)" : ""} — the ${lpMeaning.title}. ` +
+    `Your numerology chart reveals Life Path ${chart.lifePath.root}${chart.lifePath.isMaster ? " (Master Number — never reduce)" : ""} — the ${lpMeaning.title}. ` +
     `${lpMeaning.summary} ` +
     (masterCount > 0
       ? `The presence of Master Number${masterCount === 1 ? "" : "s"} raises the stakes — you are wired for higher service and will experience higher highs and lower lows. `
       : `Your numbers are grounded and embodied — gifts are accessible rather than overwhelming. `) +
-    `In this current Personal Year ${gg33.personalYear.number} cycle, the work is: ${pyForecast.guidance.toLowerCase().split(".")[0]}. ` +
+    `In this current Personal Year ${chart.personalYear.number} cycle, the work is: ${pyForecast.guidance.toLowerCase().split(".")[0]}. ` +
     `Your compatible partners share ${allies.length > 0 ? allies.map(a => `Life Path ${a}`).join(" or ") : "your own Life Path"} energy; your growth edge is ${challenges[0]?.toLowerCase() ?? "self-awareness"}. ` +
-    (gg33.missingNumbers.length > 0
-      ? `Missing numbers in your birth name: ${gg33.missingNumbers.join(", ")} — develop these qualities in this lifetime. `
+    (chart.missingNumbers.length > 0
+      ? `Missing numbers in your birth name: ${chart.missingNumbers.join(", ")} — develop these qualities in this lifetime. `
       : ``) +
     `Build your life around ${lpMeaning.archetype} expression and you will fulfill the chart's promise.`;
 
   return {
     headline,
     oneLineArchetype,
-    gg33Classification: {
-      lifePath: { compound: gg33.lifePath.compound, root: gg33.lifePath.root, isMaster: gg33.lifePath.isMaster, title: lpC?.title ?? "—", vibration: lpC?.vibration ?? "—" },
-      birthDay: { compound: gg33.birthDay.compound, root: gg33.birthDay.root, isMaster: gg33.birthDay.isMaster, title: bdC?.title ?? "—", vibration: bdC?.vibration ?? "—" },
-      expression: { compound: gg33.expression.compound, root: gg33.expression.root, isMaster: gg33.expression.isMaster, title: expC?.title ?? "—", vibration: expC?.vibration ?? "—" },
-      soulUrge: { compound: gg33.soulUrge.compound, root: gg33.soulUrge.root, isMaster: gg33.soulUrge.isMaster, title: soulC?.title ?? "—", vibration: soulC?.vibration ?? "—" },
-      personality: { compound: gg33.personality.compound, root: gg33.personality.root, isMaster: gg33.personality.isMaster, title: persC?.title ?? "—", vibration: persC?.vibration ?? "—" },
+    numerologyClassification: {
+      lifePath: { compound: chart.lifePath.compound, root: chart.lifePath.root, isMaster: chart.lifePath.isMaster, title: lpC?.title ?? "—", vibration: lpC?.vibration ?? "—" },
+      birthDay: { compound: chart.birthDay.compound, root: chart.birthDay.root, isMaster: chart.birthDay.isMaster, title: bdC?.title ?? "—", vibration: bdC?.vibration ?? "—" },
+      expression: { compound: chart.expression.compound, root: chart.expression.root, isMaster: chart.expression.isMaster, title: expC?.title ?? "—", vibration: expC?.vibration ?? "—" },
+      soulUrge: { compound: chart.soulUrge.compound, root: chart.soulUrge.root, isMaster: chart.soulUrge.isMaster, title: soulC?.title ?? "—", vibration: soulC?.vibration ?? "—" },
+      personality: { compound: chart.personality.compound, root: chart.personality.root, isMaster: chart.personality.isMaster, title: persC?.title ?? "—", vibration: persC?.vibration ?? "—" },
       overallVerdict,
       overallSummary,
       wealthHighlight,
     },
     coreProfile: {
       lifePath: {
-        number: gg33.lifePath.root,
+        number: chart.lifePath.root,
         title: lpMeaning.title,
         archetype: lpMeaning.archetype,
         summary: lpMeaning.summary,
         planet: lpMeaning.planet,
       },
       attitude: {
-        number: gg33.attitude.root,
-        description: ATTITUDE_MEANINGS[gg33.attitude.root] ?? "",
+        number: chart.attitude.root,
+        description: ATTITUDE_MEANINGS[chart.attitude.root] ?? "",
       },
     },
     personality: {
@@ -294,7 +294,7 @@ export function synthesize(input: SynthesisInput): PredictionReport {
       challenges,
       hiddenPotential,
       shadow,
-      missingNumbers: gg33.missingNumbers,
+      missingNumbers: chart.missingNumbers,
     },
     career: {
       recommended: career,
@@ -324,8 +324,8 @@ export function synthesize(input: SynthesisInput): PredictionReport {
         guidance: pyForecast.guidance,
         focus: pyForecast.focus,
         caution: pyForecast.caution,
-        effectiveYear: gg33.personalYear.effectiveYear,
-        birthdayPassed: gg33.personalYear.birthdayPassed,
+        effectiveYear: chart.personalYear.effectiveYear,
+        birthdayPassed: chart.personalYear.birthdayPassed,
       },
       combinedGuidance,
     },

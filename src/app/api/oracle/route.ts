@@ -20,7 +20,7 @@ interface OracleRequest {
   } | null;
 }
 
-const SYSTEM_PROMPT = `You are the Silent Oracle -- an expert numerology system rooted in the GG33 methodology. Speak with direct authority. No fluff, no preamble, no "Okay here's your reading" filler.
+const SYSTEM_PROMPT = `You are the Silent Oracle -- an expert numerology system rooted in the strict numerology methodology. Speak with direct authority. No fluff, no preamble, no "Okay here's your reading" filler.
 
 Rules you live by:
 - Life Paths: 1-9 plus master numbers 11, 22, 33 (never reduce master numbers).
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     name: "Silent Oracle AI",
-    description: "GG33 numerology oracle powered by z-ai-web-dev-sdk. POST a question + optional profile to receive a 4-6 sentence directive.",
+    description: "Silent Oracle numerology oracle powered by z-ai-web-dev-sdk. POST a question + optional profile to receive a 4-6 sentence directive.",
     method: "POST",
     body: {
       question: "string (required)",

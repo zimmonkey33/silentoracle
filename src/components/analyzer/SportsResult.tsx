@@ -313,7 +313,7 @@ export function SportsResult({ data }: { data: AnalyzeResponse }) {
             </div>
             <div className="flex-1">
               <p className="text-xs uppercase tracking-widest text-rose-700 dark:text-rose-300 font-semibold">
-                GG33 Sports Prediction · {p.sportType} · Event date {inputs.eventDate}
+                Sports Prediction · {p.sportType} · Event date {inputs.eventDate}
               </p>
               <h2 className="mt-1 text-2xl md:text-3xl font-bold tracking-tight">
                 Predicted Winner: <span className="text-amber-600">{p.predictedWinner}</span>
@@ -392,7 +392,7 @@ export function SportsResult({ data }: { data: AnalyzeResponse }) {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Score Comparison</CardTitle>
-          <CardDescription>Combined GG33 score per team (0–100).</CardDescription>
+          <CardDescription>Combined Silent Oracle score per team (0–100).</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div>
@@ -424,7 +424,7 @@ export function SportsResult({ data }: { data: AnalyzeResponse }) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
-            <Sparkles className="size-5 text-amber-600" /> GG33 Reasoning Chain
+            <Sparkles className="size-5 text-amber-600" /> Reasoning Chain
           </CardTitle>
           <CardDescription>How the prediction was reached, step by step.</CardDescription>
         </CardHeader>

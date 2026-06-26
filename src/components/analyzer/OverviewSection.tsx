@@ -22,7 +22,7 @@ export function OverviewSection({ data }: { data: AnalyzeResponse }) {
             </div>
             <div className="flex-1">
               <p className="text-xs uppercase tracking-widest text-amber-700 dark:text-amber-300 font-semibold">
-                GG33 Numerology Analysis
+                Numerology Analysis
               </p>
               <h2 className="mt-1 text-2xl md:text-3xl font-bold tracking-tight">
                 {r.headline}
@@ -33,12 +33,12 @@ export function OverviewSection({ data }: { data: AnalyzeResponse }) {
         </CardContent>
       </Card>
 
-      {/* GG33 Classification */}
+      {/* Classification */}
       <Card className="border-2 border-amber-300/60 dark:border-amber-700/40">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
             <Sparkles className="size-5 text-amber-600" />
-            GG33 Compound Classification
+            Compound Classification
           </CardTitle>
           <CardDescription>
             Each core number is checked for Master Number (11/22/33) and wealth/money status.
@@ -53,7 +53,7 @@ export function OverviewSection({ data }: { data: AnalyzeResponse }) {
               { key: "soulUrge", label: "Soul Urge" },
               { key: "personality", label: "Personality" },
             ] as const).map(({ key, label }) => {
-              const item = r.gg33Classification[key];
+              const item = r.numerologyClassification[key];
               return (
                 <div key={key} className={`rounded-lg border p-3 ${
                   item.isMaster ? "border-amber-400/60 bg-amber-50/40 dark:bg-amber-950/20" : "bg-card"
@@ -74,10 +74,10 @@ export function OverviewSection({ data }: { data: AnalyzeResponse }) {
               );
             })}
           </div>
-          <p className="text-sm leading-relaxed">{r.gg33Classification.overallSummary}</p>
-          {r.gg33Classification.wealthHighlight && (
+          <p className="text-sm leading-relaxed">{r.numerologyClassification.overallSummary}</p>
+          {r.numerologyClassification.wealthHighlight && (
             <div className="rounded-md border border-yellow-300/60 dark:border-yellow-700/40 bg-yellow-50/60 dark:bg-yellow-950/20 p-3 text-sm text-yellow-900 dark:text-yellow-200">
-              <span className="font-semibold">{r.gg33Classification.wealthHighlight}</span>
+              <span className="font-semibold">{r.numerologyClassification.wealthHighlight}</span>
             </div>
           )}
         </CardContent>

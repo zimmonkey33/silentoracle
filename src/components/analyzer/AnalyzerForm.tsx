@@ -93,7 +93,7 @@ export function AnalyzerForm({ onAnalyze, loading }: Props) {
               className="h-11"
             />
             <p className="text-xs text-muted-foreground">
-              Use the name on your birth certificate. GG33 uses Chaldean letter values for name numbers.
+              Use the name on your birth certificate. Uses Chaldean letter values for name numbers.
             </p>
           </div>
 

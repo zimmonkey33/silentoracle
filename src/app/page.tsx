@@ -267,7 +267,7 @@ export default function Home() {
               Analyze a <strong style={{ color: T.orange }}>person</strong>,{" "}
               <strong style={{ color: T.orange }}>company</strong>,{" "}
               <strong style={{ color: T.orange }}>country</strong>, or{" "}
-              <strong style={{ color: T.orange }}>sports event</strong> — server-side GG33 numerology + Chinese zodiac with strict methodology.
+              <strong style={{ color: T.orange }}>sports event</strong> — server-side Silent Oracle numerology + Chinese zodiac with strict methodology.
             </>
           )}
         </p>
@@ -452,7 +452,7 @@ export default function Home() {
       >
         <div className="mx-auto max-w-7xl px-4 py-6 text-center text-xs" style={{ color: T.textDim }}>
           <p className="mb-1">
-            Strict GG33 methodology: Pythagorean name math (1–9), straight-across Life Path and Personal Year,
+            Strict strict numerology methodology: Pythagorean name math (1–9), straight-across Life Path and Personal Year,
             Master Numbers 11/22/33 preserved, Karmic Debt 13/14/16/19 flagged, Wealth = compound 28 ONLY,
             Money = root 8, Money-lesser = roots 13 & 22, birthday-aware Personal Year. Complementary Chinese
             zodiac year sign (animal + element + polarity). The Silent Oracle AI is server-side and uses

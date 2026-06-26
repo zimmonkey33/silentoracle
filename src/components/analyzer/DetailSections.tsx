@@ -17,7 +17,7 @@ export function PersonalitySection({ data }: { data: AnalyzeResponse }) {
           <Sparkles className="size-5 text-amber-600" /> Personality Synthesis
         </CardTitle>
         <CardDescription>
-          Strengths, growth edges, and shadow pattern from the GG33 chart.
+          Strengths, growth edges, and shadow pattern from the numerology chart.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">
@@ -176,7 +176,7 @@ export function HealthSection({ data }: { data: AnalyzeResponse }) {
       </CardHeader>
       <CardContent className="space-y-3">
         <div>
-          <p className="text-xs font-semibold uppercase text-muted-foreground">GG33 — Ruling Planet Region</p>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">Ruling Planet Region</p>
           <p className="mt-1 text-sm leading-relaxed">{h.system}</p>
         </div>
         <div>

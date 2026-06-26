@@ -23,8 +23,8 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   return NextResponse.json({
-    name: "GG33 Numerology × Chinese Astrology — Multi-Entity Prediction Analyzer",
-    methodology: "Strict GG33: Chaldean name math + Pythagorean date math, master numbers 11-99 preserved, compound numbers 1-99 with lucky/unlucky classification.",
+    name: "Numerology × Chinese Astrology — Multi-Entity Prediction Analyzer",
+    methodology: "Strict Silent Oracle: Chaldean name math + Pythagorean date math, master numbers 11-99 preserved, compound numbers 1-99 with lucky/unlucky classification.",
     entityTypes: ["person", "company", "sports"],
     endpoints: {
       analyze: {

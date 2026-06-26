@@ -311,7 +311,7 @@ export function OracleChatTab({ profile }: { profile: OracleProfile | null }) {
 
       <OracleHr />
       <p style={{ fontSize: "11px", color: T.textDim, textAlign: "center", padding: "6px 0" }}>
-        * Oracle responses are AI-generated guidance based on GG33 numerology · For reflection, not professional advice
+        * Oracle responses are AI-generated guidance based on Silent Oracle numerology · For reflection, not professional advice
       </p>
     </div>
   );

@@ -20,7 +20,7 @@ export function ChineseYearSignCard({ sign, contextLabel }: Props) {
           <Sparkles className="size-5 text-rose-600" /> Chinese Zodiac Year Sign
         </CardTitle>
         <CardDescription>
-          {contextLabel ? `${contextLabel} — ` : ""}Complementary system to GG33 numerology.
+          {contextLabel ? `${contextLabel} — ` : ""}Complementary system to Silent Oracle numerology.
         </CardDescription>
       </CardHeader>
       <CardContent>

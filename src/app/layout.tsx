@@ -14,11 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Silent Oracle — GG33 Numerology & Astrology",
+  title: "Silent Oracle — Numerology & Astrology",
   description:
-    "A unified GG33 numerology and astrology app. Decode any person, company, country, or sports event with strict GG33 methodology, consult the Silent Oracle AI for personalised guidance, and explore daily energy, compatibility, and an entity database of 1,400+ famous people and brands.",
+    "A unified Silent Oracle numerology and astrology app. Decode any person, company, country, or sports event with strict strict numerology methodology, consult the Silent Oracle AI for personalised guidance, and explore daily energy, compatibility, and an entity database of 1,400+ famous people and brands.",
   keywords: [
-    "GG33",
+    "Silent Oracle",
     "numerology",
     "astrology",
     "Silent Oracle",
@@ -34,18 +34,18 @@ export const metadata: Metadata = {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
   openGraph: {
-    title: "Silent Oracle — GG33 Numerology & Astrology",
+    title: "Silent Oracle — Numerology & Astrology",
     description:
-      "Decode any entity with strict GG33 numerology + Chinese zodiac, then consult the Silent Oracle AI for personalised guidance.",
+      "Decode any entity with strict Silent Oracle numerology + Chinese zodiac, then consult the Silent Oracle AI for personalised guidance.",
     url: "https://chat.z.ai",
     siteName: "Silent Oracle",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Silent Oracle — GG33 Numerology & Astrology",
+    title: "Silent Oracle — Numerology & Astrology",
     description:
-      "Decode any entity with strict GG33 numerology + Chinese zodiac, then consult the Silent Oracle AI for personalised guidance.",
+      "Decode any entity with strict Silent Oracle numerology + Chinese zodiac, then consult the Silent Oracle AI for personalised guidance.",
   },
 };
 

@@ -14,7 +14,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Loader2, Sparkles, User2, Calendar, Building2, Trophy, MapPin, Shirt, Globe, Heart } from "lucide-react";
 
-const ANIMALS: string[] = []; // no Chinese zodiac in pure GG33
+const ANIMALS: string[] = []; // no Chinese zodiac in pure Silent Oracle
 
 // ─── Shared button ──────────────────────────────────────────────────────
 function SubmitButton({ loading, label }: { loading: boolean; label: string }) {
@@ -97,7 +97,7 @@ export function PersonForm({ onAnalyze, loading }: { onAnalyze: (v: PersonFormVa
           <User2 className="size-5 text-amber-600" /> Person Analysis
         </CardTitle>
         <CardDescription>
-          Enter full birth name + birth date. GG33 uses Pythagorean name + date math. Add a partner for compatibility analysis.
+          Enter full birth name + birth date. The system uses Pythagorean name + date math. Add a partner for compatibility analysis.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -196,7 +196,7 @@ export function CompanyForm({ onAnalyze, loading }: { onAnalyze: (v: CompanyForm
           <Building2 className="size-5 text-emerald-600" /> Company Analysis
         </CardTitle>
         <CardDescription>
-          Registered legal company name + founding date → GG33 numerology + Chinese zodiac analysis.
+          Registered legal company name + founding date → Silent Oracle numerology + Chinese zodiac analysis.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -207,7 +207,7 @@ export function CompanyForm({ onAnalyze, loading }: { onAnalyze: (v: CompanyForm
             </Label>
             <Input id="companyName" placeholder="e.g. Apple Inc" value={companyName}
               onChange={(e) => setCompanyName(e.target.value)} className="h-11" autoComplete="off" />
-            <p className="text-xs text-muted-foreground">Use the registered legal name. GG33 reduces via Pythagorean. &quot;Apple Inc&quot; ≠ &quot;Apple&quot; ≠ &quot;APPLE&quot;.</p>
+            <p className="text-xs text-muted-foreground">Use the registered legal name. Reduces via Pythagorean. &quot;Apple Inc&quot; ≠ &quot;Apple&quot; ≠ &quot;APPLE&quot;.</p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="grid gap-2">
@@ -313,7 +313,7 @@ function TeamFields({ prefix, name, setName, city, setCity, foundingYear, setFou
       <div className="grid gap-2">
         <Label className="text-xs flex items-center gap-1.5"><Shirt className="size-3" /> Key Jersey Numbers (comma-separated)</Label>
         <Input placeholder="e.g. 10, 7, 23" value={jerseys} onChange={(e) => setJerseys(e.target.value)} className="h-10" />
-        <p className="text-[11px] text-muted-foreground">GG33 classifies each jersey with master/karmic/wealth/money tags.</p>
+        <p className="text-[11px] text-muted-foreground">The system classifies each jersey with master/karmic/wealth/money tags.</p>
       </div>
 
       {/* Players section */}
@@ -324,7 +324,7 @@ function TeamFields({ prefix, name, setName, city, setCity, foundingYear, setFou
             + Add player
           </button>
         </div>
-        <p className="mt-1 text-[10px] text-muted-foreground">Adding a player&apos;s birthday computes their GG33 Life Path + Chinese zodiac sign.</p>
+        <p className="mt-1 text-[10px] text-muted-foreground">Adding a player&apos;s birthday computes their Silent Oracle Life Path + Chinese zodiac sign.</p>
         {players.length === 0 && (
           <p className="mt-2 text-[11px] italic text-muted-foreground">No players added. Click &quot;+ Add player&quot; to include key players.</p>
         )}
@@ -364,12 +364,12 @@ function IndividualFields({ prefix, name, setName, birthDate, setBirthDate, team
       <div className="grid gap-2">
         <Label className="text-xs flex items-center gap-1.5"><Calendar className="size-3" /> Birth Date</Label>
         <Input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="h-10" min="1900-01-01" max="2200-12-31" />
-        <p className="text-[10px] text-muted-foreground">Computes GG33 Life Path + Chinese zodiac for this competitor.</p>
+        <p className="text-[10px] text-muted-foreground">Computes Silent Oracle Life Path + Chinese zodiac for this competitor.</p>
       </div>
       <div className="grid gap-2">
         <Label className="text-xs flex items-center gap-1.5"><Shirt className="size-3" /> Car# / Seed# / Number (optional)</Label>
         <Input placeholder="e.g. 44 (Hamilton), 1 (Verstappen)" value={teamNumber} onChange={(e) => setTeamNumber(e.target.value)} className="h-10" />
-        <p className="text-[10px] text-muted-foreground">GG33 classifies this number with master/wealth/money tags.</p>
+        <p className="text-[10px] text-muted-foreground">The system classifies this number with master/wealth/money tags.</p>
       </div>
     </div>
   );
@@ -474,8 +474,8 @@ export function SportsForm({ onAnalyze, loading }: { onAnalyze: (v: SportsFormVa
         </CardTitle>
         <CardDescription>
           {isIndividual
-            ? "Individual sport — enter competitor names + birth dates for GG33 Life Path + Chinese zodiac analysis."
-            : "Team sport — enter team names + founding year + key players for full GG33 + Chinese zodiac analysis."}
+            ? "Individual sport — enter competitor names + birth dates for Silent Oracle Life Path + Chinese zodiac analysis."
+            : "Team sport — enter team names + founding year + key players for full Silent Oracle + Chinese zodiac analysis."}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -564,7 +564,7 @@ export function CountryForm({ onAnalyze, loading }: { onAnalyze: (v: CountryForm
           <Globe className="size-5 text-sky-600" /> Country Analysis
         </CardTitle>
         <CardDescription>
-          Country name + founding/independence date → GG33 numerology + Chinese zodiac analysis.
+          Country name + founding/independence date → Silent Oracle numerology + Chinese zodiac analysis.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -575,7 +575,7 @@ export function CountryForm({ onAnalyze, loading }: { onAnalyze: (v: CountryForm
             </Label>
             <Input id="countryName" placeholder="e.g. United States of America" value={countryName}
               onChange={(e) => setCountryName(e.target.value)} className="h-11" autoComplete="off" />
-            <p className="text-xs text-muted-foreground">Use the official country name. GG33 reduces via Pythagorean.</p>
+            <p className="text-xs text-muted-foreground">Use the official country name. Reduces via Pythagorean.</p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="grid gap-2">

@@ -80,7 +80,7 @@ export function CompanyResult({ data }: { data: AnalyzeResponse }) {
             </div>
             <div className="flex-1">
               <p className="text-xs uppercase tracking-widest text-amber-700 dark:text-amber-300 font-semibold">
-                GG33 Numerology Analysis
+                Numerology Analysis
               </p>
               <h2 className="mt-1 text-2xl md:text-3xl font-bold tracking-tight">{name}</h2>
               <div className="mt-2 flex items-center gap-2 flex-wrap">

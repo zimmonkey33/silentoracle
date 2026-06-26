@@ -79,8 +79,8 @@ function NumberCell({ label, root, compound, isMaster, isKarmicDebt, karmicDebtA
 }
 
 export function NumerologySection({ data }: { data: AnalyzeResponse }) {
-  if (!data.gg33Chart || !data.companions) return null;
-  const c = data.gg33Chart;
+  if (!data.numerologyChart || !data.companions) return null;
+  const c = data.numerologyChart;
   const meanings = data.companions.numerologyMeanings;
   const lpMeaning = data.companions.lifePathMeaning;
 
@@ -92,7 +92,7 @@ export function NumerologySection({ data }: { data: AnalyzeResponse }) {
             <Hash className="size-5 text-amber-600" /> Core Numerology Numbers
           </CardTitle>
           <CardDescription>
-            Strict GG33: Pythagorean chart (1-9) for all name calcs. Life Path = straight-across sum of all date digits. Master Numbers 11/22/33 preserved. Karmic Debt 13/14/16/19 flagged before reducing.
+            Strict Silent Oracle: Pythagorean chart (1-9) for all name calcs. Life Path = straight-across sum of all date digits. Master Numbers 11/22/33 preserved. Karmic Debt 13/14/16/19 flagged before reducing.
           </CardDescription>
         </CardHeader>
         <CardContent>

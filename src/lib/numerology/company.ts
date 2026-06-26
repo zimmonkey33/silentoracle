@@ -1,11 +1,11 @@
 /**
- * GG33 Company / Business / Country Analyzer
+ * Silent Oracle Company / Business / Country Analyzer
  * ----------------------------------------------------------------------
  * Per spec: uses the REGISTERED LEGAL NAME + founding date as Life Path.
- * All name calcs use Pythagorean (GG33 default).
+ * All name calcs use Pythagorean (the default).
  *
  * Wealth-compound override: if the founding date's COMPOUND number is on
- * the GG33 wealth list (24, 28, 32, 41, 42, 46, 50, 51, 60, 64, 69, 80,
+ * the Silent Oracle wealth list (24, 28, 32, 41, 42, 46, 50, 51, 60, 64, 69, 80,
  * 81, 82, 86, 88, 96, 99), the  is boosted. This explains why
  * Apple Inc (name = 4, founding date compound = 28) succeeds despite
  * the neutral name root — 28 is a wealth compound.
@@ -14,8 +14,8 @@
  * declaration of independence / founding date.
  */
 
-import type { BirthDate } from "./gg33";
-import { nameToNumber, personalYear, reduceNumberStrict } from "./gg33";
+import type { BirthDate } from "./numerology-engine";
+import { nameToNumber, personalYear, reduceNumberStrict } from "./numerology-engine";
 import {
   getCompoundMeaning,
   getMoneyCategory,
@@ -60,7 +60,7 @@ export interface EntityInput {
 // Keep CompanyInput as alias
 export type CompanyInput = EntityInput;
 
-function buildGg33Result(compound: number): EntityNumber {
+function buildNumerologyResult(compound: number): EntityNumber {
   const root = reduceNumberStrict(compound);
   return {
     root,
@@ -74,7 +74,7 @@ function buildGg33Result(compound: number): EntityNumber {
 }
 
 /**
- * Entity Life Path — strict GG33 straight-across method.
+ * Entity Life Path — strict Silent Oracle straight-across method.
  * Sum ALL digits of MMDDYYYY, then reduce.
  */
 function entityLifePath(b: BirthDate): number {
@@ -106,14 +106,14 @@ export function buildEntityChart(input: EntityInput): EntityChart {
   const currentYear = input.currentYear ?? new Date().getFullYear();
 
   const nameRaw = nameToNumber(name);
-  const nameN = buildGg33Result(nameRaw);
+  const nameN = buildNumerologyResult(nameRaw);
 
   const lpRaw = entityLifePath(foundingDate);
-  const lpN = buildGg33Result(lpRaw);
+  const lpN = buildNumerologyResult(lpRaw);
 
   let industryN: EntityNumber | undefined;
   if (industry && industry.trim()) {
-    industryN = buildGg33Result(nameToNumber(industry));
+    industryN = buildNumerologyResult(nameToNumber(industry));
   }
 
   const py = personalYear(foundingDate, new Date(currentYear, 5, 15)).number;
@@ -131,7 +131,7 @@ export function buildEntityChart(input: EntityInput): EntityChart {
 
   // ── Pure analysis (no verdicts) ────────────────────────────────────
   // Per spec:
-  //   - WEALTH compound = 28 ONLY (the single wealth compound in GG33)
+  //   - WEALTH compound = 28 ONLY (the single wealth compound in Silent Oracle)
   //   - MONEY root = 8 (Saturn, primary money number)
   //   - MONEY (lesser-known) roots = 13 and 22
   //
@@ -160,7 +160,7 @@ export function buildEntityChart(input: EntityInput): EntityChart {
   if (lpN.isWealth) wealthItems.push({ label: "founding life path", root: lpN.root, compound: lpN.compound, title: lpN.meaning?.title ?? "" });
   if (industryN?.isWealth) wealthItems.push({ label: "industry", root: industryN.root, compound: industryN.compound, title: industryN.meaning?.title ?? "" });
   const wealthHighlight = wealthItems.length > 0
-    ? `WEALTH COMPOUND DETECTED: ${wealthItems.map(w => `${w.label} = ${w.root} (compound ${w.compound}, "${w.title}")`).join("; ")}. Compound 28 is the ONLY wealth compound in the GG33 system — it indicates material abundance through trust, negotiation, and partnership. This is why ${name} succeeds materially.`
+    ? `WEALTH COMPOUND DETECTED: ${wealthItems.map(w => `${w.label} = ${w.root} (compound ${w.compound}, "${w.title}")`).join("; ")}. Compound 28 is the ONLY wealth compound in the the numerology system — it indicates material abundance through trust, negotiation, and partnership. This is why ${name} succeeds materially.`
     : null;
 
   // Money highlight (root 8 = money, roots 13 & 22 = lesser money)
@@ -180,7 +180,7 @@ export function buildEntityChart(input: EntityInput): EntityChart {
 
   const entityLabel = entityType === "country" ? "country" : "company";
 
-  const summary = `${name} — GG33 numerology analysis. Name root: ${nameN.root} (${nameN.meaning?.title}). Founding Life Path: ${lpN.root} (${lpN.meaning?.title}). Personal Year ${py} (${pyTheme}).${masterCount > 0 ? ` ${masterCount} Master Number${masterCount === 1 ? "" : "s"} present.` : ""}${wealthCount > 0 ? " Wealth compound 28 detected." : ""}${moneyCount > 0 ? ` Money number 8 present.` : ""}`;
+  const summary = `${name} — Numerology analysis. Name root: ${nameN.root} (${nameN.meaning?.title}). Founding Life Path: ${lpN.root} (${lpN.meaning?.title}). Personal Year ${py} (${pyTheme}).${masterCount > 0 ? ` ${masterCount} Master Number${masterCount === 1 ? "" : "s"} present.` : ""}${wealthCount > 0 ? " Wealth compound 28 detected." : ""}${moneyCount > 0 ? ` Money number 8 present.` : ""}`;
 
   const observations: string[] = [];
   observations.push(
@@ -196,7 +196,7 @@ export function buildEntityChart(input: EntityInput): EntityChart {
   );
   observations.push(
     lpN.isWealth
-      ? `The founding date (${foundingDate.month}/${foundingDate.day}/${foundingDate.year}) sums to compound ${lpN.compound} → root ${lpN.root} (WEALTH compound 28, "${lpN.meaning?.title}"). This is the strongest financial indicator in GG33 — abundance through trust and negotiation.`
+      ? `The founding date (${foundingDate.month}/${foundingDate.day}/${foundingDate.year}) sums to compound ${lpN.compound} → root ${lpN.root} (WEALTH compound 28, "${lpN.meaning?.title}"). This is the strongest financial indicator in Silent Oracle — abundance through trust and negotiation.`
       : lpN.moneyCategory === "money"
       ? `The founding date (${foundingDate.month}/${foundingDate.day}/${foundingDate.year}) sums to root ${lpN.root} (MONEY number 8, "${lpN.meaning?.title}"). The entity is born to handle money .`
       : lpN.moneyCategory === "money-lesser"
@@ -223,7 +223,7 @@ export function buildEntityChart(input: EntityInput): EntityChart {
     observations.push(`Master Number${masterCount === 1 ? "" : "s"} detected — this raises the stakes. Master-number entities either define their field or collapse under the weight of their vision.`);
   }
   if (wealthCount > 0) {
-    observations.push(`WEALTH COMPOUND 28 detected — the ${entityLabel} carries GG33's ONLY wealth compound. Material abundance through trust, negotiation, and partnership is materially supported.`);
+    observations.push(`WEALTH COMPOUND 28 detected — the ${entityLabel} carries Silent Oracle's ONLY wealth compound. Material abundance through trust, negotiation, and partnership is materially supported.`);
   }
   if (moneyCount > 0) {
     observations.push(`MONEY NUMBER 8 (root) detected — the ${entityLabel} carries Saturn's money vibration. Financial power is supported.`);

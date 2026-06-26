@@ -126,7 +126,7 @@ export function MyReadingTab({
           <div style={{ textAlign: "center", padding: "30px 10px" }}>
             <div style={{ fontSize: "48px", marginBottom: "10px" }}>🔮</div>
             <p style={{ fontSize: "13px", color: T.textDim, lineHeight: 1.7 }}>
-              Enter your birth date above to unlock your full GG33 numerology profile — Life Path, Personal Year, Chinese zodiac, Western zodiac, lucky number, and personalised guidance for the current cycle.
+              Enter your birth date above to unlock your full Silent Oracle numerology profile — Life Path, Personal Year, Chinese zodiac, Western zodiac, lucky number, and personalised guidance for the current cycle.
             </p>
           </div>
         </OracleCard>
@@ -387,7 +387,7 @@ export function MyReadingTab({
 
           <OracleHr />
           <p style={{ fontSize: "11px", color: T.textDim, textAlign: "center", padding: "6px 0" }}>
-            * All calculations follow strict GG33 methodology · Master Numbers 11/22/33 preserved · Personal Year is birthday-aware
+            * All calculations follow strict strict numerology methodology · Master Numbers 11/22/33 preserved · Personal Year is birthday-aware
           </p>
         </>
       )}

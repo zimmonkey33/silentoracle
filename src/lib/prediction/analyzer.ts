@@ -1,15 +1,15 @@
 /**
- * Unified Analyzer Dispatcher — GG33 + Chinese Year Sign
+ * Unified Analyzer Dispatcher — Silent Oracle + Chinese Year Sign
  * ----------------------------------------------------------------------
  * Routes a prediction request to the correct analyzer:
- *   - person    → GG33 numerology + Chinese year sign
- *   - company   → GG33 company analyzer (registered name + founding date)
- *   - country   → GG33 entity analyzer (country name + founding/independence date)
- *   - sports    → GG33 sports event predictor
+ *   - person    → Silent Oracle numerology + Chinese year sign
+ *   - company   → Silent Oracle company analyzer (registered name + founding date)
+ *   - country   → Silent Oracle entity analyzer (country name + founding/independence date)
+ *   - sports    → Silent Oracle sports event predictor
  */
 
-import { buildGg33Chart } from "../numerology/gg33";
-import type { BirthDate } from "../numerology/gg33";
+import { buildNumerologyChart } from "../numerology/numerology-engine";
+import type { BirthDate } from "../numerology/numerology-engine";
 import { getMeaning, NUMEROLOGY_MEANINGS } from "../numerology/interpretations";
 import { synthesize } from "./synthesis";
 import { buildEntityChart, buildCompanyChart } from "../numerology/company";
@@ -68,7 +68,7 @@ function parseISODate(s?: string, minYear: number = 1900): { year: number; month
 export interface AnalysisResult {
   entityType: EntityType;
   // Person
-  gg33Chart?: ReturnType<typeof buildGg33Chart>;
+  numerologyChart?: ReturnType<typeof buildNumerologyChart>;
   report?: ReturnType<typeof synthesize>;
   companions?: {
     lifePathMeaning: ReturnType<typeof getMeaning>;
@@ -77,7 +77,7 @@ export interface AnalysisResult {
   // Chinese year sign (person, company, country)
   chineseYearSign?: ChineseYearSign;
   // Partner (person compatibility)
-  partnerChart?: ReturnType<typeof buildGg33Chart>;
+  partnerChart?: ReturnType<typeof buildNumerologyChart>;
   partnerChineseYearSign?: ChineseYearSign;
   compatibility?: {
     lpTier: "aligned" | "complementary" | "challenging" | "neutral";
@@ -114,7 +114,7 @@ export async function analyze(req: AnalyzeRequest): Promise<AnalysisResult> {
     const parsed = parseISODate(req.birthDate);
     if (!parsed) throw new Error("birthDate must be ISO yyyy-mm-dd between 1900 and 2200");
 
-    const gg33 = buildGg33Chart({
+    const chart = buildNumerologyChart({
       fullName: req.fullName,
       birth: { year: parsed.year, month: parsed.month, day: parsed.day },
     });
@@ -122,32 +122,32 @@ export async function analyze(req: AnalyzeRequest): Promise<AnalysisResult> {
     const now = new Date();
     const age = now.getFullYear() - parsed.year;
     const report = synthesize({
-      gg33,
+      chart,
       birth: { year: parsed.year, month: parsed.month, day: parsed.day },
       age,
       currentYear: now.getFullYear(),
     });
 
-    const lpMeaning = getMeaning(gg33.lifePath.root);
+    const lpMeaning = getMeaning(chart.lifePath.root);
 
     const chineseYearSign = getChineseYearSignFromDate(parsed.year, parsed.month, parsed.day);
 
     // ── Partner compatibility (optional) ──────────────────────────────
-    let partnerChart: ReturnType<typeof buildGg33Chart> | undefined;
+    let partnerChart: ReturnType<typeof buildNumerologyChart> | undefined;
     let partnerChineseYearSign: ChineseYearSign | undefined;
     let compatibility: AnalysisResult["compatibility"] = null;
 
     if (req.partnerName && req.partnerBirthDate) {
       const partnerParsed = parseISODate(req.partnerBirthDate);
       if (partnerParsed) {
-        partnerChart = buildGg33Chart({
+        partnerChart = buildNumerologyChart({
           fullName: req.partnerName,
           birth: { year: partnerParsed.year, month: partnerParsed.month, day: partnerParsed.day },
         });
         partnerChineseYearSign = getChineseYearSignFromDate(partnerParsed.year, partnerParsed.month, partnerParsed.day);
 
         // Life Path compatibility
-        const lp1 = gg33.lifePath.root;
+        const lp1 = chart.lifePath.root;
         const lp2 = partnerChart.lifePath.root;
         const NATURAL_ALLIES: Record<number, number[]> = {
           1: [5], 2: [6], 3: [9], 4: [8], 5: [1], 6: [2], 7: [7], 8: [4], 9: [3],
@@ -170,7 +170,7 @@ export async function analyze(req: AnalyzeRequest): Promise<AnalysisResult> {
         const zodiacCompat = zodiacCompatibility(chineseYearSign.animal, partnerChineseYearSign.animal);
 
         // Personal Year alignment
-        const py1 = gg33.personalYear.number;
+        const py1 = chart.personalYear.number;
         const py2 = partnerChart.personalYear.number;
         let pyAlignment: "powerful" | "aligned" | "friction" | "neutral" = "neutral";
         if (py1 === py2) pyAlignment = "powerful";
@@ -201,7 +201,7 @@ export async function analyze(req: AnalyzeRequest): Promise<AnalysisResult> {
 
     return {
       entityType: "person",
-      gg33Chart: gg33,
+      numerologyChart: chart,
       report,
       companions: {
         lifePathMeaning: lpMeaning,

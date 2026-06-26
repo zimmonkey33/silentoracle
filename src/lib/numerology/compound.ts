@@ -1,7 +1,7 @@
 /**
- * GG33 Strict Methodology — Number Theory
+ * Strict Numerology Methodology — Number Theory
  * ----------------------------------------------------------------------
- * Per the GG33 reference spec, ONLY 11, 22, 33 are Master Numbers.
+ * Per the the reference spec, ONLY 11, 22, 33 are Master Numbers.
  * 44 → 8, 55 → 1, 66 → 3, 77 → 5, 88 → 7, 99 → 9.
  *
  * Karmic Debt Numbers: 13, 14, 16, 19. These must be flagged BEFORE
@@ -42,7 +42,7 @@ export function isKarmicDebt(n: number): boolean {
 }
 
 /**
- * STRICT GG33 REDUCTION
+ * STRICT Silent Oracle REDUCTION
  * - Stop at single digit 1-9
  * - Stop at Master Numbers 11, 22, 33
  * - 44→8, 55→1, 66→3, 77→5, 88→7, 99→9 (NOT masters)
@@ -89,7 +89,7 @@ export const COMPOUND_MEANINGS: Record<number, Omit<CompoundMeaning, "root" | "i
   6: { number: 6, title: "The Nurturer", vibration: "Venus / Love", keyword: "love", detail: "Venus's emissary — love, beauty, responsibility." },
   7: { number: 7, title: "The Seeker", vibration: "Ketu / Testing", keyword: "testing", detail: "Ruled by Ketu — testing, mystery, isolation. Favourable for spiritual work only. Karmic if from 16." },
   8: { number: 8, title: "The Powerhouse", vibration: "Saturn / Karma", keyword: "power", detail: "Saturn's apprentice — power, money, karmic justice." },
-  9: { number: 9, title: "The Adapter", vibration: "Mars / Adaptability / Completion", keyword: "adaptability", detail: "Number 9 is linked with adaptability in GG33. Mars-ruled — courage, endings, and the ability to adapt to any situation. 9 completes the 1-9 cycle but does so through versatility and transformation, not through being an 'old soul'. GG33 does NOT classify 9 as an old soul." },
+  9: { number: 9, title: "The Adapter", vibration: "Mars / Adaptability / Completion", keyword: "adaptability", detail: "Number 9 is linked with adaptability in Silent Oracle. Mars-ruled — courage, endings, and the ability to adapt to any situation. 9 completes the 1-9 cycle but does so through versatility and transformation, not through being an 'old soul'. The system does NOT classify 9 as an old soul." },
   10: { number: 10, title: "Wheel of Fortune", vibration: "Sun + Zero / Beginnings", keyword: "fortune", detail: "Perfect new beginning — 1 (Sun) + 0 (void/potential)." },
   11: { number: 11, title: "Master Intuitive", vibration: "Master / The Messenger", keyword: "illumination", detail: "Master Number — illumination, sensitivity, psychic ability. NEVER reduce to 2." },
   12: { number: 12, title: "The Sacrifice", vibration: "Hanged Man", keyword: "sacrifice", detail: "Sacrifice and suspension — work that benefits others more than self." },
@@ -124,7 +124,7 @@ export const COMPOUND_MEANINGS: Record<number, Omit<CompoundMeaning, "root" | "i
   41: { number: 41, title: "Magical Magnetic", vibration: "Mercury × 5", keyword: "magical", detail: "Magical, magnetic, electric." },
   42: { number: 42, title: "Love and Family", vibration: "Venus × 6", keyword: "family-love", detail: "Lucky — love, family, domestic happiness." },
   43: { number: 43, title: "Innovation and Conflict", vibration: "Mars × 7", keyword: "innovation-conflict", detail: "Innovation that meets resistance." },
-  44: { number: 44, title: "Karmic Reset (reduces to 8)", vibration: "Saturn × 8", keyword: "karmic-reset", detail: "NOT a master number in GG33. Reduces to 8 (4+4=8). Karmic system-rebuilder energy." },
+  44: { number: 44, title: "Karmic Reset (reduces to 8)", vibration: "Saturn × 8", keyword: "karmic-reset", detail: "NOT a master number in Silent Oracle. Reduces to 8 (4+4=8). Karmic system-rebuilder energy." },
   45: { number: 45, title: "Magnetic Pioneer", vibration: "Mercury × 9", keyword: "pioneer", detail: "Magnetic pioneer — combines discipline with versatility." },
   46: { number: 46, title: "Fidelity and Love", vibration: "Venus × 10", keyword: "fidelity", detail: "Lucky — fidelity, lasting love, enduring partnerships." },
   47: { number: 47, title: "Spiritual Lone Wolf (reduces to 11)", vibration: "Ketu × 11", keyword: "spiritual-loner", detail: "Spiritual lone wolf — reduces to 11 (master)." },
@@ -135,7 +135,7 @@ export const COMPOUND_MEANINGS: Record<number, Omit<CompoundMeaning, "root" | "i
   52: { number: 52, title: "Sudden Explosive", vibration: "Mercury × 7", keyword: "explosive", detail: "Sudden, explosive change." },
   53: { number: 53, title: "Knowledge and Ambition", vibration: "Jupiter × 8", keyword: "ambition", detail: "Knowledge in service of ambition — tests ethics." },
   54: { number: 54, title: "Brave and True", vibration: "Uranus × 9", keyword: "brave", detail: "Brave and true — tests courage." },
-  55: { number: 55, title: "Quantum Teacher (reduces to 1)", vibration: "Mercury × 10", keyword: "quantum", detail: "NOT a master number in GG33. Reduces to 1 (5+5=10→1). Quantum-thinking energy." },
+  55: { number: 55, title: "Quantum Teacher (reduces to 1)", vibration: "Mercury × 10", keyword: "quantum", detail: "NOT a master number in Silent Oracle. Reduces to 1 (5+5=10→1). Quantum-thinking energy." },
   56: { number: 56, title: "Knowledge and Loneliness", vibration: "Venus × 11", keyword: "lonely-knowledge", detail: "Knowledge that isolates." },
   57: { number: 57, title: "Variety and Change", vibration: "Ketu × 12", keyword: "variety", detail: "Variety and change — tests commitment." },
   58: { number: 58, title: "Boredom and Loneliness", vibration: "Saturn × 13", keyword: "boredom", detail: "Boredom, loneliness despite material success." },
@@ -146,7 +146,7 @@ export const COMPOUND_MEANINGS: Record<number, Omit<CompoundMeaning, "root" | "i
   63: { number: 63, title: "Magical Magnetic", vibration: "Jupiter × 9", keyword: "magnetic", detail: "Magical and magnetic." },
   64: { number: 64, title: "Marriage and Family", vibration: "Uranus × 10", keyword: "marriage-family", detail: "Lucky — marriage, family, domestic happiness." },
   65: { number: 65, title: "Lucky Optimistic", vibration: "Venus × 11", keyword: "optimistic", detail: "Lucky and optimistic." },
-  66: { number: 66, title: "Master Love (reduces to 3)", vibration: "Venus × 12", keyword: "master-love", detail: "NOT a master number in GG33. Reduces to 3 (6+6=12→3). Embodiment of love." },
+  66: { number: 66, title: "Master Love (reduces to 3)", vibration: "Venus × 12", keyword: "master-love", detail: "NOT a master number in Silent Oracle. Reduces to 3 (6+6=12→3). Embodiment of love." },
   67: { number: 67, title: "Focus and Success", vibration: "Ketu × 13", keyword: "focus-success", detail: "Focus that brings success — slowly. Tests long-term commitment." },
   68: { number: 68, title: "Hardworking Balanced", vibration: "Saturn × 14", keyword: "hardworking", detail: "Hardworking, balanced success." },
   69: { number: 69, title: "Magical Success", vibration: "Mars × 15", keyword: "magical-success", detail: "Lucky — magical success through balanced polarity." },
@@ -157,7 +157,7 @@ export const COMPOUND_MEANINGS: Record<number, Omit<CompoundMeaning, "root" | "i
   74: { number: 74, title: "Spiritual Perfect", vibration: "Uranus × 11", keyword: "spiritual-perfect", detail: "Spiritual perfection sought through solitude." },
   75: { number: 75, title: "Rebel Freedom", vibration: "Venus × 12", keyword: "rebel", detail: "Rebel energy — freedom sought through resistance." },
   76: { number: 76, title: "Conflict Anxiety", vibration: "Ketu × 13", keyword: "anxiety", detail: "Conflict, anxiety, karmic testing." },
-  77: { number: 77, title: "Spiritual Mystical (reduces to 5)", vibration: "Ketu × 14", keyword: "mystical", detail: "NOT a master number in GG33. Reduces to 5 (7+7=14→5). Mystical energy." },
+  77: { number: 77, title: "Spiritual Mystical (reduces to 5)", vibration: "Ketu × 14", keyword: "mystical", detail: "NOT a master number in Silent Oracle. Reduces to 5 (7+7=14→5). Mystical energy." },
   78: { number: 78, title: "Conflict Financial", vibration: "Saturn × 15", keyword: "financial-conflict", detail: "Conflict through money — tests money ethics." },
   79: { number: 79, title: "Spiritual Political", vibration: "Mars × 16", keyword: "political-spiritual", detail: "Spiritual work that intersects with politics." },
   80: { number: 80, title: "Business Success", vibration: "Sun × 8", keyword: "business-success", detail: "Lucky — business success, financial mastery." },
@@ -168,7 +168,7 @@ export const COMPOUND_MEANINGS: Record<number, Omit<CompoundMeaning, "root" | "i
   85: { number: 85, title: "Rebel Change", vibration: "Venus × 13", keyword: "rebel-change", detail: "Rebel change — transformation through resistance." },
   86: { number: 86, title: "Love Family", vibration: "Ketu × 14", keyword: "love-family", detail: "Lucky — love, family, domestic happiness through disciplined effort." },
   87: { number: 87, title: "Magnetic Focus", vibration: "Saturn × 15", keyword: "magnetic-focus", detail: "Magnetic focus — power combined with wisdom." },
-  88: { number: 88, title: "Material Abundance (reduces to 7)", vibration: "Saturn × 16", keyword: "abundance", detail: "NOT a master number in GG33. Reduces to 7 (8+8=16→7). In Chinese culture, 88 is doubly fortunate." },
+  88: { number: 88, title: "Material Abundance (reduces to 7)", vibration: "Saturn × 16", keyword: "abundance", detail: "NOT a master number in Silent Oracle. Reduces to 7 (8+8=16→7). In Chinese culture, 88 is doubly fortunate." },
   89: { number: 89, title: "Conflict Financial", vibration: "Mars × 17", keyword: "financial-conflict", detail: "Conflict through money, especially legal or partnership money." },
   90: { number: 90, title: "Spiritual Awakening", vibration: "Sun × 9", keyword: "spiritual-awakening", detail: "Lucky — spiritual awakening, completion, universal service." },
   91: { number: 91, title: "Spiritual Transformation", vibration: "Moon × 10", keyword: "spiritual-transformation", detail: "Lucky — spiritual transformation through disciplined practice." },
@@ -179,7 +179,7 @@ export const COMPOUND_MEANINGS: Record<number, Omit<CompoundMeaning, "root" | "i
   96: { number: 96, title: "Magical Perfection", vibration: "Ketu × 15", keyword: "magical-perfection", detail: "Lucky — magical perfection, work that achieves completeness." },
   97: { number: 97, title: "Spiritual Perfect", vibration: "Saturn × 16", keyword: "spiritual-perfect", detail: "Lucky — spiritual perfection through disciplined wisdom." },
   98: { number: 98, title: "Spiritual Success", vibration: "Mars × 17", keyword: "spiritual-success", detail: "Spiritual success through service and courage." },
-  99: { number: 99, title: "Universal (reduces to 9)", vibration: "Mars × 18", keyword: "universal", detail: "NOT a master number in GG33. Reduces to 9 (9+9=18→9). Universal completion energy." },
+  99: { number: 99, title: "Universal (reduces to 9)", vibration: "Mars × 18", keyword: "universal", detail: "NOT a master number in Silent Oracle. Reduces to 9 (9+9=18→9). Universal completion energy." },
 };
 
 export function getCompoundMeaning(n: number): CompoundMeaning | undefined {
@@ -197,10 +197,10 @@ export function getKarmicDebtInfo(n: number): { reducesTo: number; lesson: strin
   return KARMIC_DEBT[n];
 }
 
-// ─── WEALTH & MONEY Numbers (strict GG33) ────────────────────────────
-// Per GG33 spec:
+// ─── WEALTH & MONEY Numbers (strict Silent Oracle) ────────────────────────────
+// Per The spec:
 //   - WEALTH number (compound): ONLY 28. The single "wealth compound"
-//     in the GG33 system. Indicates material abundance through trust,
+//     in the the numerology system. Indicates material abundance through trust,
 //     negotiation, and partnership.
 //   - MONEY number (root): 8. The primary money number — Saturn's
 //     material mastery, financial power, karmic accounting.

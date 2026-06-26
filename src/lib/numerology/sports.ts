@@ -1,5 +1,5 @@
 /**
- * GG33 Sports Event Predictor — All-Sport Edition
+ * Silent Oracle Sports Event Predictor — All-Sport Edition
  * ----------------------------------------------------------------------
  * Supports any sport (soccer, basketball, NFL, baseball, hockey, tennis,
  * cricket, rugby, F1, golf, boxing, MMA, etc.).
@@ -9,15 +9,15 @@
  *   - Optional city
  *   - Optional founding year → team Chinese zodiac year sign
  *   - Optional key jersey numbers
- *   - Optional player birthdays → each player's GG33 Life Path + Chinese zodiac
+ *   - Optional player birthdays → each player's Silent Oracle Life Path + Chinese zodiac
  *
  * Per event:
  *   - Event date → Universal Day (straight-across sum)
  *   - Event year → Chinese zodiac year sign
  */
 
-import type { BirthDate } from "./gg33";
-import { nameToNumber, reduceNumberStrict, lifePathNumber } from "./gg33";
+import type { BirthDate } from "./numerology-engine";
+import { nameToNumber, reduceNumberStrict, lifePathNumber } from "./numerology-engine";
 import {
   getCompoundMeaning,
   getMoneyCategory,
@@ -133,7 +133,7 @@ export interface SportsPrediction {
   prediction: string;
 }
 
-function gg33Result(compound: number): NumberBreakdown {
+function numerologyResult(compound: number): NumberBreakdown {
   const root = reduceNumberStrict(compound);
   const karmic = isKarmicDebt(compound);
   return {
@@ -154,17 +154,17 @@ function universalDayCompound(d: BirthDate): number {
 
 function scoreTeam(team: TeamInput, eventDayRoot: number, eventYearAnimal: string): TeamAnalysis {
   const nameRaw = nameToNumber(team.name);
-  const nameN = gg33Result(nameRaw);
+  const nameN = numerologyResult(nameRaw);
 
   let cityN: NumberBreakdown | undefined;
   if (team.city && team.city.trim()) {
-    cityN = gg33Result(nameToNumber(team.city));
+    cityN = numerologyResult(nameToNumber(team.city));
   }
 
   let jerseys: JerseyBreakdown[] | undefined;
   if (team.keyJerseyNumbers && team.keyJerseyNumbers.length > 0) {
     jerseys = team.keyJerseyNumbers.map(j => {
-      const r = gg33Result(j);
+      const r = numerologyResult(j);
       return { jersey: j, root: r.root, compound: r.compound, isMaster: r.isMaster, isKarmicDebt: r.isKarmicDebt, karmicDebtAs: r.karmicDebtAs, isWealth: r.isWealth, moneyCategory: r.moneyCategory, meaning: r.meaning };
     });
   }
@@ -183,7 +183,7 @@ function scoreTeam(team: TeamInput, eventDayRoot: number, eventYearAnimal: strin
     // Example: 1947 → 1+9+4+7 = 21 → 3
     const yearDigits = String(team.foundingYear).split("").map(Number);
     const yearSum = yearDigits.reduce((s, n) => s + n, 0);
-    const yn = gg33Result(yearSum);
+    const yn = numerologyResult(yearSum);
     const digitsStr = String(team.foundingYear).split("").join("+");
     const steps = `${digitsStr} = ${yearSum}${yn.root !== yearSum ? ` → ${yn.root}` : ""}${yn.isMaster ? " (MASTER)" : ""}`;
     foundingYearNumber = { ...yn, steps };
@@ -206,7 +206,7 @@ function scoreTeam(team: TeamInput, eventDayRoot: number, eventYearAnimal: strin
       }
       if (bd) {
         const lp = lifePathNumber(bd);
-        const lpBreakdown = gg33Result(lp.compound);
+        const lpBreakdown = numerologyResult(lp.compound);
         analysis.lifePath = { ...lpBreakdown, steps: lp.steps };
         analysis.chineseYearSign = getChineseYearSignFromDate(bd.year, bd.month, bd.day);
         // Player's event-year zodiac compatibility
@@ -286,7 +286,7 @@ export function predictSportsEvent(
   sportType: SportType = "Soccer (Football)",
 ): SportsPrediction {
   const udCompound = universalDayCompound(eventDate);
-  const ud = gg33Result(udCompound);
+  const ud = numerologyResult(udCompound);
   const eventChineseYearSign = getChineseYearSignFromDate(eventDate.year, eventDate.month, eventDate.day);
   const eventYearAnimal = eventChineseYearSign.animal;
 
@@ -414,10 +414,10 @@ export function predictSportsEvent(
 
   const prediction =
     edge === 0
-      ? `Toss-up. Both teams carry nearly identical GG33 frequencies on this date. Consider intangibles (form, injuries, home advantage, sport-specific factors).`
+      ? `Toss-up. Both teams carry nearly identical Silent Oracle frequencies on this date. Consider intangibles (form, injuries, home advantage, sport-specific factors).`
       : edge > 0
-      ? `GG33 edge: ${team1.name} (+${edge}). Predicted winner: ${team1.name} with ${confidence}% confidence.`
-      : `GG33 edge: ${team2.name} (+${Math.abs(edge)}). Predicted winner: ${team2.name} with ${confidence}% confidence.`;
+      ? `Silent Oracle edge: ${team1.name} (+${edge}). Predicted winner: ${team1.name} with ${confidence}% confidence.`
+      : `Silent Oracle edge: ${team2.name} (+${Math.abs(edge)}). Predicted winner: ${team2.name} with ${confidence}% confidence.`;
 
   return {
     sportType,

@@ -11,7 +11,7 @@ import type { AnalyzeResponse } from "@/lib/types";
 export function CompatibilitySection({ data }: { data: AnalyzeResponse }) {
   if (!data.compatibility) return null;
   const c = data.compatibility;
-  const myChart = data.gg33Chart;
+  const myChart = data.numerologyChart;
   const partnerChart = data.partnerChart;
   if (!myChart || !partnerChart) return null;
 

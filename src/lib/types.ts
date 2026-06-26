@@ -1,7 +1,7 @@
 /**
  * Type definitions for the unified multi-entity analyzer.
  */
-import type { Gg33Chart } from "@/lib/numerology/gg33";
+import type { NumerologyChart } from "@/lib/numerology/numerology-engine";
 import type { NumberMeaning } from "@/lib/numerology/interpretations";
 import type { PredictionReport } from "@/lib/prediction/synthesis";
 import type { EntityChart, CompanyChart } from "@/lib/numerology/company";
@@ -16,7 +16,7 @@ export interface AnalyzeResponse {
   entityType: EntityType;
 
   // Person
-  gg33Chart?: Gg33Chart;
+  numerologyChart?: NumerologyChart;
   report?: PredictionReport;
   companions?: {
     lifePathMeaning: NumberMeaning | undefined;
@@ -27,7 +27,7 @@ export interface AnalyzeResponse {
   chineseYearSign?: ChineseYearSign;
 
   // Partner (person compatibility)
-  partnerChart?: Gg33Chart;
+  partnerChart?: NumerologyChart;
   partnerChineseYearSign?: ChineseYearSign;
   compatibility?: {
     lpTier: "aligned" | "complementary" | "challenging" | "neutral";
@@ -59,4 +59,4 @@ export interface AnalyzeResponse {
   inputs: Record<string, unknown>;
 }
 
-export type { Gg33Chart, NumberMeaning, PredictionReport, EntityChart, CompanyChart, SportsPrediction, CompoundMeaning, ChineseYearSign };
+export type { NumerologyChart, NumberMeaning, PredictionReport, EntityChart, CompanyChart, SportsPrediction, CompoundMeaning, ChineseYearSign };

@@ -28,7 +28,7 @@ export const LP: Record<number, LifePathInfo> = {
   2:  {
     title:"The Diplomat", emoji:"🤝", color:"#FFB340",
     traits:["Sensitive","Cooperative","Intuitive","Peacemaker","Empathic","Detail-oriented"],
-    desc:"The most sensitive frequency in numerology -- and the most underestimated. The 2 is the master of relationship, the keeper of balance, and the invisible force behind every great partnership. Where the 1 charges forward alone, the 2 achieves through alliance. Deeply intuitive, 2s often know things before they can explain how. In the GG33 system, pure 2 Life Paths are rare -- partial 2 energy is more common and manifests as heightened emotional intelligence. The gift of 2 is the ability to hold space for others and see all sides of a conflict. The shadow: giving so much that nothing is left for self.",
+    desc:"The most sensitive frequency in numerology -- and the most underestimated. The 2 is the master of relationship, the keeper of balance, and the invisible force behind every great partnership. Where the 1 charges forward alone, the 2 achieves through alliance. Deeply intuitive, 2s often know things before they can explain how. In the the numerology system, pure 2 Life Paths are rare -- partial 2 energy is more common and manifests as heightened emotional intelligence. The gift of 2 is the ability to hold space for others and see all sides of a conflict. The shadow: giving so much that nothing is left for self.",
     shadow:"People-pleasing, indecision, emotional overwhelm",
     strengths:"Empathy, cooperation, intuition, patience",
     wealth:"Moderate-High -- best when in powerful partnerships or advisory roles",

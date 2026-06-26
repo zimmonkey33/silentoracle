@@ -5,7 +5,7 @@
  * determine the correct zodiac animal. Someone born Jan 3, 2003 is
  * still in the Year of the Horse (2002 CNY), NOT the Goat (2003 CNY).
  *
- * GG33 uses CAT instead of Rabbit (Vietnamese tradition).
+ * The system uses CAT instead of Rabbit (Vietnamese tradition).
  *
  * Language is practical, grounded, and directly applicable to the
  * subject context — "as above, so below" methodology.
@@ -89,7 +89,7 @@ function getZodiacYear(year: number, month: number, day: number): number {
   return year;
 }
 
-// ─── Animal data (Cat replaces Rabbit per GG33) ──────────────────────
+// ─── Animal data (Cat replaces Rabbit per Silent Oracle) ──────────────────────
 const ANIMAL_DATA: Record<AnimalName, Omit<ChineseYearSign, "animal" | "element" | "polarity">> = {
   Rat:     { emoji: "🐀", chinese: "鼠 (Shǔ)",    title: "The Strategist",         archetype: "Quick-witted, resourceful", traits: ["clever", "resourceful", "adaptive", "ambitious"], bestMatches: ["Dragon", "Monkey", "Ox"], challengingMatches: ["Horse", "Goat"], summary: "Strategic mind, quick to spot opportunity. Excels in competitive environments where adaptability and resourcefulness determine outcomes." },
   Ox:      { emoji: "🐂", chinese: "牛 (Niú)",    title: "The Builder",            archetype: "Patient, methodical",       traits: ["disciplined", "reliable", "strong", "methodical"], bestMatches: ["Snake", "Rooster", "Rat"], challengingMatches: ["Goat", "Horse"], summary: "Methodical builder. Sustained effort over time produces results that outlast trends. Best in roles requiring consistency and structural thinking." },

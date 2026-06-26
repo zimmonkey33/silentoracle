@@ -1,7 +1,7 @@
 /**
- * GG33 Numerology Engine — Strict Methodology
+ * Numerology Engine — Strict Methodology
  * ----------------------------------------------------------------------
- * Per the GG33 reference spec:
+ * Per the the reference spec:
  *   - Pythagorean chart (1-9) used for ALL name calculations by default
  *   - Master Numbers: ONLY 11, 22, 33 (44→8, 55→1, 66→3, 77→5, 88→7, 99→9)
  *   - Karmic Debt: 13/4, 14/5, 16/7, 19/1 — flagged BEFORE reducing
@@ -39,7 +39,7 @@ export {
   getMoneyCategory,
 };
 
-// ─── Pythagorean chart (GG33 default) ────────────────────────────────
+// ─── Pythagorean chart (the default) ────────────────────────────────
 // 1 = A J S
 // 2 = B K T
 // 3 = C L U
@@ -96,7 +96,7 @@ function letterValue(ch: string): number {
 }
 
 /**
- * GG33 name math (Pythagorean default).
+ * Silent Oracle name math (Pythagorean default).
  * Sums all letter values in the given name string.
  */
 export function nameToNumber(name: string): number {
@@ -211,7 +211,7 @@ export interface BirthDate {
 }
 
 /**
- * GG33 LIFE PATH — STRICT STRAIGHT-ACROSS METHOD
+ * Silent Oracle LIFE PATH — STRICT STRAIGHT-ACROSS METHOD
  * Sum ALL digits of MMDDYYYY, then reduce with master preservation.
  *   Example: 12/18/1992 → 1+2+1+8+1+9+9+2 = 33  (Master 33, preserved)
  *   Example: 07/04/1996 → 0+7+0+4+1+9+9+6 = 36 → 9
@@ -237,7 +237,7 @@ export function birthDayNumber(d: BirthDate): number {
 /**
  * Personal Year — BIRTHDAY-AWARE + STRAIGHT-ACROSS.
  * ----------------------------------------------------------------------
- * Per GG33 spec: sum ALL digits of (Birth Month + Birth Day + Effective Year)
+ * Per The spec: sum ALL digits of (Birth Month + Birth Day + Effective Year)
  * written as a single string, then reduce with master-number preservation.
  *
  * Effective year = current year if birthday has passed (or is today),
@@ -381,8 +381,8 @@ export function missingNumbers(fullName: string): number[] {
   return lessons;
 }
 
-// ─── Gg33Number (strict, with karmic awareness) ─────────────────────
-export interface Gg33Number {
+// ─── NumerologyNumber (strict, with karmic awareness) ─────────────────────
+export interface NumerologyNumber {
   root: number;
   compound: number;
   isMaster: boolean;
@@ -394,7 +394,7 @@ export interface Gg33Number {
   meaning?: ReturnType<typeof getCompoundMeaning>;
 }
 
-function makeGg33Number(compound: number, calculation: string = ""): Gg33Number {
+function makeNumerologyNumber(compound: number, calculation: string = ""): NumerologyNumber {
   const r = reduceWithCompoundStrict(compound);
   const moneyCat = getMoneyCategory(r.compound, r.root);
   return {
@@ -410,15 +410,15 @@ function makeGg33Number(compound: number, calculation: string = ""): Gg33Number 
   };
 }
 
-// ─── Full GG33 chart ────────────────────────────────────────────────
-export interface Gg33Chart {
-  lifePath: Gg33Number & { steps: string };
-  birthDay: Gg33Number;          // Partial Energy
-  attitude: Gg33Number;
-  expression: Gg33Number;        // Destiny — FULL birth name
-  soulUrge: Gg33Number;          // Heart's desire — vowels only
-  personality: Gg33Number;       // Outer self — consonants only
-  maturity: Gg33Number;          // LP + Expression, later life
+// ─── Full numerology chart ────────────────────────────────────────────────
+export interface NumerologyChart {
+  lifePath: NumerologyNumber & { steps: string };
+  birthDay: NumerologyNumber;          // Partial Energy
+  attitude: NumerologyNumber;
+  expression: NumerologyNumber;        // Destiny — FULL birth name
+  soulUrge: NumerologyNumber;          // Heart's desire — vowels only
+  personality: NumerologyNumber;       // Outer self — consonants only
+  maturity: NumerologyNumber;          // LP + Expression, later life
   pinnacles: Pinnacle[];
   challenges: Challenge[];
   periodCycles: PeriodCycle[];
@@ -459,7 +459,7 @@ export interface BuildChartInput {
   now?: Date;
 }
 
-export function buildGg33Chart(input: BuildChartInput): Gg33Chart {
+export function buildNumerologyChart(input: BuildChartInput): NumerologyChart {
   const { fullName, birth } = input;
   const now = input.now ?? new Date();
 
@@ -467,7 +467,7 @@ export function buildGg33Chart(input: BuildChartInput): Gg33Chart {
   const bd = birthDayNumber(birth);
   const att = attitudeNumber(birth);
 
-  // All name calcs use Pythagorean (GG33 default) — with calculation strings.
+  // All name calcs use Pythagorean (the default) — with calculation strings.
   const expCalc = nameToNumberWithCalc(fullName);
   const soulCalc = vowelsToNumberWithCalc(fullName);
   const persCalc = consonantsToNumberWithCalc(fullName);
@@ -480,13 +480,13 @@ export function buildGg33Chart(input: BuildChartInput): Gg33Chart {
   const pyCalc = `${pyDigits.join("+")} = ${pyDigits.reduce((s, n) => s + Number(n), 0)}${py.number !== pyDigits.reduce((s, n) => s + Number(n), 0) ? ` → ${py.number}` : ""}`;
   const matCalc = `LP(${lp.root}) + Expression(${expCalc.sum}) = ${lp.root + expCalc.sum}${reduceNumberStrict(lp.root + expCalc.sum) !== lp.root + expCalc.sum ? ` → ${reduceNumberStrict(lp.root + expCalc.sum)}` : ""}`;
 
-  const lpN = makeGg33Number(lp.compound, lp.steps);
-  const bdN = makeGg33Number(bd, bdCalc);
-  const attN = makeGg33Number(att, attCalc);
-  const expN = makeGg33Number(expCalc.sum, expCalc.calculation);
-  const soulN = makeGg33Number(soulCalc.sum, soulCalc.calculation);
-  const persN = makeGg33Number(persCalc.sum, persCalc.calculation);
-  const matN = makeGg33Number(lpN.root + expN.root, matCalc);
+  const lpN = makeNumerologyNumber(lp.compound, lp.steps);
+  const bdN = makeNumerologyNumber(bd, bdCalc);
+  const attN = makeNumerologyNumber(att, attCalc);
+  const expN = makeNumerologyNumber(expCalc.sum, expCalc.calculation);
+  const soulN = makeNumerologyNumber(soulCalc.sum, soulCalc.calculation);
+  const persN = makeNumerologyNumber(persCalc.sum, persCalc.calculation);
+  const matN = makeNumerologyNumber(lpN.root + expN.root, matCalc);
 
   const pm = personalMonth(birth, now);
   const pd = personalDay(birth, now);
@@ -517,6 +517,6 @@ export function buildGg33Chart(input: BuildChartInput): Gg33Chart {
 // Per spec: "Lucky Number governs: lucky days, lucky partners, best
 // timing windows." Computed from a SINGLE name component (typically
 // first name or whichever the user picks).
-export function luckyNumber(singleName: string): Gg33Number {
-  return makeGg33Number(nameToNumber(singleName));
+export function luckyNumber(singleName: string): NumerologyNumber {
+  return makeNumerologyNumber(nameToNumber(singleName));
 }
