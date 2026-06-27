@@ -22,6 +22,8 @@ import {
   EntityIcon,
 } from "./primitives";
 import { ZodiacEmojiButton } from "./ZodiacModal";
+import { useAuth } from "./auth";
+import { PaywallModal } from "./PaywallModal";
 import type { OracleProfile } from "./MyReadingTab";
 
 interface EntityResult {
@@ -44,6 +46,9 @@ interface SavedEntity {
 }
 
 export function EntitiesTab({ profile }: { profile: OracleProfile | null }) {
+  const { state } = useAuth();
+  const [showPaywall, setShowPaywall] = useState(false);
+  const isPro = state.user.isSubscribed;
   const [search, setSearch] = useState("");
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
@@ -88,6 +93,7 @@ export function EntitiesTab({ profile }: { profile: OracleProfile | null }) {
   }
 
   function readCustom() {
+    if (!isPro) { setShowPaywall(true); return; }
     if (!date || !name.trim()) return;
     const parsed = parseEntityDate(date);
     setResult({
@@ -285,25 +291,31 @@ export function EntitiesTab({ profile }: { profile: OracleProfile | null }) {
         </OracleCard>
       )}
 
-      {/* Custom entry */}
+      {/* Custom entry — Pro-only */}
       <OracleCard>
-        <OracleLabel>ANALYZE ANY CUSTOM DATE</OracleLabel>
-        <p style={{ fontSize: "11px", color: T.textDim, marginBottom: "10px" }}>
-          Enter any entity not in the list above — a person, project, brand, or institution.
-        </p>
-        <OracleInput
-          type="text"
-          placeholder="Entity / company / person name..."
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          style={{ marginBottom: "8px" }}
-        />
-        <OracleLabel>FOUNDING / LAUNCH / INCORPORATION / BIRTH DATE</OracleLabel>
-        <OracleInput type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-        <OracleButton onClick={readCustom} disabled={!date || !name.trim()}>
-          * READ ENTITY
-        </OracleButton>
+        <OracleLabel>ANALYZE ANY CUSTOM DATE {isPro ? "" : "🔒 PRO"}</OracleLabel>
+        {isPro ? (
+          <>
+            <p style={{ fontSize: "11px", color: T.textDim, marginBottom: "10px" }}>
+              Enter any entity not in the list above.
+            </p>
+            <OracleInput type="text" placeholder="Entity / company / person name..." value={name} onChange={(e) => setName(e.target.value)} style={{ marginBottom: "8px" }} />
+            <OracleLabel>FOUNDING / LAUNCH / BIRTH DATE</OracleLabel>
+            <OracleInput type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+            <OracleButton onClick={readCustom} disabled={!date || !name.trim()}>* READ ENTITY</OracleButton>
+          </>
+        ) : (
+          <div style={{ textAlign: "center", padding: "16px 8px" }}>
+            <div style={{ fontSize: "36px", marginBottom: "8px" }}>🔒</div>
+            <p style={{ fontSize: "13px", color: T.textMid, lineHeight: 1.7, marginBottom: "14px" }}>
+              The custom date analyzer is an <strong style={{ color: T.orange }}>Oracle Pro</strong> feature.
+            </p>
+            <OracleButton onClick={() => setShowPaywall(true)} color={T.orange}>* UPGRADE TO PRO</OracleButton>
+            <p style={{ fontSize: "10px", color: T.textDim, marginTop: "8px" }}>Browse the 1,000+ entity database above for free.</p>
+          </div>
+        )}
       </OracleCard>
+      <PaywallModal open={showPaywall} feature="analyzer" onClose={() => setShowPaywall(false)} />
 
       {/* Saved entities */}
       {saved.length > 0 && (
