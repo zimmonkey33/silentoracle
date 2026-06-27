@@ -62,6 +62,23 @@ echo "📦 收集构建产物到 $BUILD_DIR..."
 if [ -d ".next/standalone" ]; then
     echo "  - 复制 .next/standalone"
     cp -r .next/standalone "$BUILD_DIR/next-service-dist/"
+
+    # 清理不必要的大文件以减小部署包体积
+    echo "  - 清理不必要的大文件..."
+    rm -rf "$BUILD_DIR/next-service-dist/node_modules/typescript"
+    rm -rf "$BUILD_DIR/next-service-dist/node_modules/@img/sharp-libvips-linux-x64"
+    rm -rf "$BUILD_DIR/next-service-dist/node_modules/@img/sharp-libvips-linuxmusl-x64"
+    rm -rf "$BUILD_DIR/next-service-dist/node_modules/@img/sharp-linuxmusl-x64"
+    # 删除非 SQLite 的 Prisma 引擎
+    cd "$BUILD_DIR/next-service-dist/node_modules/@prisma/client/runtime/" 2>/dev/null && \
+    rm -f query_engine_bg.cockroachdb* query_engine_bg.mongodb* query_engine_bg.sqlserver* query_engine_bg.mysql* query_engine_bg.postgresql* \
+          query_compiler_bg.cockroachdb* query_compiler_bg.mongodb* query_compiler_bg.sqlserver* query_compiler_bg.mysql* query_compiler_bg.postgresql* 2>/dev/null
+    cd "$NEXTJS_PROJECT_DIR"
+    # 删除非 debian 的 Prisma 引擎
+    rm -f "$BUILD_DIR/next-service-dist/node_modules/.prisma/client/libquery_engine-darwin"* 2>/dev/null
+    rm -f "$BUILD_DIR/next-service-dist/node_modules/.prisma/client/libquery_engine-linux-arm64"* 2>/dev/null
+    rm -f "$BUILD_DIR/next-service-dist/node_modules/.prisma/client/libquery_engine-rhel"* 2>/dev/null
+    echo "  - 清理完成"
 fi
 
 # 复制 Next.js 静态文件
