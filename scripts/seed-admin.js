@@ -8,7 +8,7 @@ const { PrismaClient } = require('/home/z/my-project/node_modules/@prisma/client
 const crypto = require('node:crypto');
 
 const prisma = new PrismaClient();
-const AUTH_SECRET = process.env.AUTH_SECRET || 'dev-only-secret-change-me';
+const AUTH_SECRET = process.env.AUTH_SECRET || '6e9aa12282cbf69ce8f3a15428549488ff342f8856e81a2d58ea4bccb55efc59';
 
 async function main() {
   const email = 'silentoracle33@gmail.com';
