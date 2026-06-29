@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { writeFileSync } from "fs";
-import { join } from "path";
 import ZAI from "z-ai-web-dev-sdk";
 
-const configPath = join(process.cwd(), ".z-ai-config");
 const config = {
   baseUrl: process.env.ZAI_BASE_URL || "https://internal-api.z.ai/v1",
   apiKey: process.env.ZAI_API_KEY || "Z.ai",
 };
 if (process.env.ZAI_TOKEN) (config as any).token = process.env.ZAI_TOKEN;
-writeFileSync(configPath, JSON.stringify(config, null, 2) + "\n");
+writeFileSync("/tmp/.z-ai-config", JSON.stringify(config, null, 2) + "\n");
 
 export const runtime = "nodejs";
 export const maxDuration = 60;

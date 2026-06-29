@@ -7,7 +7,7 @@
     "build": "node scripts/generate-zai-config.js && prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
-    "postinstall": "prisma generate || true",
+    "postinstall": "node scripts/patch-zai-sdk.js && prisma generate || true",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:seed-admin": "node scripts/seed-admin.js",
