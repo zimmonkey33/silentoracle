@@ -1,13 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFileSync } from "fs";
-import ZAI from "z-ai-web-dev-sdk";
+import OpenAI from "openai";
 
-const config = {
-  baseUrl: process.env.ZAI_BASE_URL || "https://internal-api.z.ai/v1",
-  apiKey: process.env.ZAI_API_KEY || "Z.ai",
-};
-if (process.env.ZAI_TOKEN) (config as any).token = process.env.ZAI_TOKEN;
-writeFileSync("/tmp/.z-ai-config", JSON.stringify(config, null, 2) + "\n");
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -15,10 +9,10 @@ export const maxDuration = 60;
 interface OracleRequest {
   question: string;
   profile?: {
-    birthDate?: string;       // YYYY-MM-DD
+    birthDate?: string;
     lifePath?: number;
     lifePathTitle?: string;
-    chineseZodiac?: string;   // animal name
+    chineseZodiac?: string;
     personalYear?: number;
     yearStatusLabel?: string;
     personalMonth?: number;
@@ -28,7 +22,7 @@ interface OracleRequest {
   } | null;
 }
 
-const SYSTEM_PROMPT = `You are the Silent Oracle -- an expert numerology system rooted in the strict numerology methodology. Speak with direct authority. No fluff, no preamble, no "Okay here's your reading" filler.
+const SYSTEM_PROMPT = `You are the Silent Oracle -- an expert numerology system rooted in the strict numerology methodology. Speak with direct authority. No fluff, no preamble.
 
 Rules you live by:
 - Life Paths: 1-9 plus master numbers 11, 22, 33 (never reduce master numbers).
@@ -54,13 +48,12 @@ export async function POST(req: NextRequest) {
       ? `User profile: born ${body.profile.birthDate ?? "unknown"}. Life Path ${body.profile.lifePath}${body.profile.lifePathTitle ? ` (${body.profile.lifePathTitle})` : ""}. Chinese zodiac: Year of the ${body.profile.chineseZodiac ?? "unknown"}. Personal Year ${body.profile.personalYear} (${body.profile.yearStatusLabel ?? ""}). Personal Month ${body.profile.personalMonth}${body.profile.personalMonthLabel ? ` (${body.profile.personalMonthLabel})` : ""}. Lucky number: ${body.profile.luckyNumber}${body.profile.luckyBreakdown ? ` (${body.profile.luckyBreakdown})` : ""}.`
       : "No birth date set -- give general numerology guidance, then invite the user to enter their birth date for personalized readings.";
 
-    const zai = await ZAI.create();
-    const completion = await zai.chat.completions.create({
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o",
       messages: [
-        { role: "assistant", content: SYSTEM_PROMPT },
+        { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: `${ctx}\n\nUser question: ${body.question.trim()}` },
       ],
-      thinking: { type: "disabled" },
     });
 
     const answer =
@@ -77,7 +70,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     name: "Silent Oracle AI",
-    description: "Silent Oracle numerology oracle powered by z-ai-web-dev-sdk. POST a question + optional profile to receive a 4-6 sentence directive.",
+    description: "Silent Oracle numerology oracle. POST a question + optional profile to receive a 4-6 sentence directive.",
     method: "POST",
     body: {
       question: "string (required)",
