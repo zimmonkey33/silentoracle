@@ -9,17 +9,19 @@ export async function GET(req: NextRequest) {
   const usage = await getUsageSnapshot(req);
   let birthdate: string | null = null;
   let isAdmin = false;
+  let emailVerified = true;
   if (session?.sub) {
-    const user = await db.user.findUnique({ where: { id: session.sub }, select: { birthdate: true, isAdmin: true } });
+    const user = await db.user.findUnique({ where: { id: session.sub }, select: { birthdate: true, isAdmin: true, emailVerifiedAt: true } });
     birthdate = user?.birthdate ?? null;
     isAdmin = user?.isAdmin ?? false;
+    emailVerified = user?.emailVerifiedAt !== null;
   }
   const isUnlimited = session?.isSubscribed || isAdmin;
   return NextResponse.json({
     ok: true,
     user: session
-      ? { isSignedIn: true, isSubscribed: isUnlimited, isAdmin, email: session.email, name: session.name, birthdate, authMode: isWhopConfigured() ? "whop" : "demo" }
-      : { isSignedIn: false, isSubscribed: false, isAdmin: false, email: null, name: null, birthdate: null, authMode: isWhopConfigured() ? "whop" : "demo" },
+      ? { isSignedIn: true, isSubscribed: isUnlimited, isAdmin, email: session.email, name: session.name, birthdate, emailVerified, authMode: isWhopConfigured() ? "whop" : "demo" }
+      : { isSignedIn: false, isSubscribed: false, isAdmin: false, email: null, name: null, birthdate: null, emailVerified: true, authMode: isWhopConfigured() ? "whop" : "demo" },
     usage: isUnlimited
       ? { oracle: { used: 0, limit: 999999, remaining: 999999 }, analyzer: { used: 0, limit: 999999, remaining: 999999 } }
       : usage,
