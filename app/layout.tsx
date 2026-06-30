@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: "Silent Oracle is a unified numerology and astrology app. Decode any person, company, country, or sports event, consult the Oracle AI for personalised guidance, and explore daily energy, compatibility, and an entity database of 1,000+ famous people and brands.",
   keywords: ["Silent Oracle", "numerology", "astrology", "Life Path", "Chinese zodiac", "Western zodiac", "compatibility", "oracle", "divination"],
   authors: [{ name: "Silent Oracle" }],
-  icons: { icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg" },
+  icons: { icon: "/icon.svg" },
   openGraph: { title: "Silent Oracle — Numerology & Astrology", description: "Decode any entity with numerology + Chinese zodiac, then consult the Oracle AI for personalised guidance.", url: "https://chat.z.ai", siteName: "Silent Oracle", type: "website" },
   twitter: { card: "summary_large_image", title: "Silent Oracle — Numerology & Astrology", description: "Decode any entity with numerology + Chinese zodiac, then consult the Oracle AI for personalised guidance." },
 };
