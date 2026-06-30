@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       : "No birth date set -- give general numerology guidance, then invite the user to enter their birth date for personalized readings.";
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-4o-mini",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: `${ctx}\n\nUser question: ${body.question.trim()}` },
