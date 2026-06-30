@@ -122,8 +122,8 @@ export default function Home() {
       <header className="border-b sticky top-0 z-30 backdrop-blur" style={{ background: `${T.bg2}f0`, borderColor: T.border }}>
         <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-3">
-            <div className="grid size-10 place-items-center rounded-xl shadow-md" style={{ background: `linear-gradient(135deg, ${T.orange}, ${T.orangeHi})`, color: "#000" }}>
-              <Sparkles className="size-5" />
+            <div className="grid size-10 place-items-center rounded-xl shadow-md overflow-hidden" style={{ background: `linear-gradient(135deg, ${T.orange}, ${T.orangeHi})` }}>
+              <img src="/logo.svg" alt="Silent Oracle" className="size-7" />
             </div>
             <div>
               <h1 className="text-base font-bold leading-tight sm:text-lg" style={{ color: T.text }}>Silent <span style={{ color: T.orange }}>Oracle</span></h1>

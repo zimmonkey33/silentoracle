@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   keywords: ["Silent Oracle", "numerology", "astrology", "Life Path", "Chinese zodiac", "Western zodiac", "compatibility", "oracle", "divination"],
   authors: [{ name: "Silent Oracle" }],
   icons: { icon: "/icon.svg" },
-  openGraph: { title: "Silent Oracle — Numerology & Astrology", description: "Decode any entity with numerology + Chinese zodiac, then consult the Oracle AI for personalised guidance.", url: "https://chat.z.ai", siteName: "Silent Oracle", type: "website" },
+  openGraph: { title: "Silent Oracle — Numerology & Astrology", description: "Decode any entity with numerology + Chinese zodiac, then consult the Oracle AI for personalised guidance.", url: "https://silentoracle-phi.vercel.app", siteName: "Silent Oracle", type: "website" },
   twitter: { card: "summary_large_image", title: "Silent Oracle — Numerology & Astrology", description: "Decode any entity with numerology + Chinese zodiac, then consult the Oracle AI for personalised guidance." },
 };
 
