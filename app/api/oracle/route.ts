@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -48,17 +45,29 @@ export async function POST(req: NextRequest) {
       ? `User profile: born ${body.profile.birthDate ?? "unknown"}. Life Path ${body.profile.lifePath}${body.profile.lifePathTitle ? ` (${body.profile.lifePathTitle})` : ""}. Chinese zodiac: Year of the ${body.profile.chineseZodiac ?? "unknown"}. Personal Year ${body.profile.personalYear} (${body.profile.yearStatusLabel ?? ""}). Personal Month ${body.profile.personalMonth}${body.profile.personalMonthLabel ? ` (${body.profile.personalMonthLabel})` : ""}. Lucky number: ${body.profile.luckyNumber}${body.profile.luckyBreakdown ? ` (${body.profile.luckyBreakdown})` : ""}.`
       : "No birth date set -- give general numerology guidance, then invite the user to enter their birth date for personalized readings.";
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: `${ctx}\n\nUser question: ${body.question.trim()}` },
-      ],
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        max_tokens: 600,
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          { role: "user", content: `${ctx}\n\nUser question: ${body.question.trim()}` },
+        ],
+      }),
     });
 
-    const answer =
-      completion?.choices?.[0]?.message?.content ||
-      "The numbers are unclear. Ask again.";
+    if (!res.ok) {
+      const errBody = await res.text();
+      return NextResponse.json({ error: `OpenAI ${res.status}: ${errBody}` }, { status: 502 });
+    }
+
+    const data = await res.json();
+    const answer = data?.choices?.[0]?.message?.content || "The numbers are unclear. Ask again.";
 
     return NextResponse.json({ ok: true, answer });
   } catch (err: unknown) {
