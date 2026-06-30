@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createDemoUser, getDemoUser, signSession, setSessionCookie, isWhopConfigured } from "@/lib/auth";
+import { createDemoUser, generateVerificationCode, setVerificationCode, isWhopConfigured } from "@/lib/auth";
+import { sendVerificationCode } from "@/lib/email";
 export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
@@ -15,9 +16,12 @@ export async function POST(req: NextRequest) {
   if (!pin || pin.length !== 4 || !/^\d{4}$/.test(pin)) return NextResponse.json({ error: "PIN must be exactly 4 digits." }, { status: 400 });
   const result = await createDemoUser({ email, name, birthdate, pin });
   if (!result.ok) return NextResponse.json({ error: result.error }, { status: 409 });
-  const user = await getDemoUser(email);
-  if (!user) return NextResponse.json({ error: "Account creation failed." }, { status: 500 });
-  const token = await signSession({ sub: user.id, email: user.email, name: user.name, isSubscribed: user.subscribed, isAdmin: user.isAdmin });
-  await setSessionCookie(token);
-  return NextResponse.json({ ok: true, user: { email: user.email, name: user.name, isSubscribed: user.subscribed, isAdmin: user.isAdmin } });
+  const code = generateVerificationCode();
+  await setVerificationCode(email, code);
+  try {
+    await sendVerificationCode(email, code);
+  } catch {
+    return NextResponse.json({ error: "Failed to send verification email. Check your email address or try again later." }, { status: 500 });
+  }
+  return NextResponse.json({ ok: true, requiresVerification: true, email });
 }

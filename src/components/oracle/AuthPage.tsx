@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { T } from "@/lib/oracle/theme";
 import { OracleButton, OracleOutlineButton, OracleInput, OracleLabel } from "./primitives";
-import { demoSignUp, demoSignIn, useAuth } from "./auth";
+import { demoSignUp, demoSignIn, demoVerifyCode, resendVerificationCode, useAuth } from "./auth";
 
-type Mode = "welcome" | "signup" | "signin";
+type Mode = "welcome" | "signup" | "signin" | "verify";
 
 export function AuthPage() {
   const { refresh, showAuthView, setShowAuthView } = useAuth();
@@ -13,8 +13,11 @@ export function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [suName, setSuName] = useState(""); const [suEmail, setSuEmail] = useState(""); const [suBirth, setSuBirth] = useState(""); const [suPin, setSuPin] = useState(""); const [suPin2, setSuPin2] = useState("");
   const [siEmail, setSiEmail] = useState(""); const [siPin, setSiPin] = useState("");
+  const [verifyEmail, setVerifyEmail] = useState(""); const [verifyCode, setVerifyCode] = useState(""); const [resent, setResent] = useState(false);
+  const codeRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => { if (!showAuthView) return; const prev = document.body.style.overflow; document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = prev; }; }, [showAuthView]);
+  useEffect(() => { if (mode === "verify" && codeRef.current) { setTimeout(() => codeRef.current?.focus(), 100); } }, [mode]);
   if (!showAuthView) return null;
 
   function close() { setShowAuthView(false); setMode("welcome"); setError(null); setLoading(false); }
@@ -31,7 +34,9 @@ export function AuthPage() {
     const r = await demoSignUp({ email: suEmail, name: suName, birthdate: suBirth, pin: suPin });
     setLoading(false);
     if (!r.ok) return setError(r.error || "Sign-up failed.");
-    await refresh(); close();
+    setVerifyEmail(suEmail);
+    setMode("verify");
+    setError(null);
   }
 
   async function handleSignIn() {
@@ -41,8 +46,35 @@ export function AuthPage() {
     setLoading(true);
     const r = await demoSignIn({ email: siEmail, pin: siPin });
     setLoading(false);
-    if (!r.ok) return setError(r.error || "Sign-in failed.");
+    if (!r.ok) {
+      if ((r as any).requiresVerification) {
+        setVerifyEmail(siEmail);
+        setMode("verify");
+        setError(null);
+        return;
+      }
+      return setError(r.error || "Sign-in failed.");
+    }
     await refresh(); close();
+  }
+
+  async function handleVerify() {
+    setError(null);
+    if (!verifyCode || verifyCode.length !== 6 || !/^\d{6}$/.test(verifyCode)) return setError("Enter the 6-digit code sent to your email.");
+    setLoading(true);
+    const r = await demoVerifyCode(verifyEmail, verifyCode);
+    setLoading(false);
+    if (!r.ok) return setError(r.error || "Verification failed.");
+    await refresh(); close();
+  }
+
+  async function handleResend() {
+    setError(null); setLoading(true);
+    const r = await resendVerificationCode(verifyEmail);
+    setLoading(false);
+    if (!r.ok) return setError(r.error || "Failed to resend.");
+    setResent(true);
+    setTimeout(() => setResent(false), 5000);
   }
 
   return (
@@ -94,6 +126,37 @@ export function AuthPage() {
             </div>
             <OracleButton onClick={handleSignUp} disabled={loading}>{loading ? "* CREATING..." : "* CREATE MY ACCOUNT"}</OracleButton>
             <button onClick={() => { setMode("welcome"); setError(null); }} style={{ display: "block", margin: "16px auto 0", background: "none", border: "none", color: T.textDim, fontSize: 11, cursor: "pointer", fontFamily: "inherit" }}>← Back</button>
+          </div>
+        )}
+
+        {mode === "verify" && (
+          <div style={{ background: T.card, border: `1px solid ${T.border}`, borderRadius: 12, padding: 32 }}>
+            <h2 style={{ fontSize: 18, fontWeight: 900, color: T.orange, letterSpacing: "2px", textAlign: "center", margin: "0 0 8px" }}>VERIFY YOUR EMAIL</h2>
+            <p style={{ fontSize: 12, color: T.textMid, textAlign: "center", marginBottom: 24, lineHeight: 1.6 }}>
+              We sent a 6-digit code to <strong style={{ color: T.orange }}>{verifyEmail}</strong>. Enter it below to activate your account.
+            </p>
+            <OracleLabel>VERIFICATION CODE</OracleLabel>
+            <OracleInput
+              ref={codeRef}
+              type="text"
+              inputMode="numeric"
+              maxLength={6}
+              value={verifyCode}
+              onChange={(e) => setVerifyCode(e.target.value.replace(/\D/g, ""))}
+              placeholder="000000"
+              style={{ marginBottom: 14, textAlign: "center", fontSize: 24, letterSpacing: 8, fontFamily: "monospace" }}
+            />
+            <OracleButton onClick={handleVerify} disabled={loading || verifyCode.length !== 6}>{loading ? "* VERIFYING..." : "* ACTIVATE ACCOUNT"}</OracleButton>
+            <div style={{ textAlign: "center", marginTop: 16 }}>
+              {resent ? (
+                <span style={{ fontSize: 11, color: T.green }}>✓ Code resent!</span>
+              ) : (
+                <button onClick={handleResend} disabled={loading} style={{ background: "none", border: "none", color: T.orange, fontSize: 11, cursor: "pointer", fontFamily: "inherit", textDecoration: "underline" }}>
+                  Resend code
+                </button>
+              )}
+            </div>
+            <button onClick={() => { setMode("signup"); setError(null); }} style={{ display: "block", margin: "16px auto 0", background: "none", border: "none", color: T.textDim, fontSize: 11, cursor: "pointer", fontFamily: "inherit" }}>← Change email</button>
           </div>
         )}
 

@@ -82,3 +82,28 @@ export async function getDemoUser(email: string): Promise<{ id: string; email: s
 export async function setDemoUserSubscribed(email: string, subscribed: boolean): Promise<void> {
   await db.user.update({ where: { email: email.toLowerCase().trim() }, data: { isSubscribed: subscribed, subscribedAt: subscribed ? new Date() : null } });
 }
+
+export function generateVerificationCode(): string {
+  return String(Math.floor(100000 + Math.random() * 900000));
+}
+
+export async function setVerificationCode(email: string, code: string): Promise<void> {
+  await db.user.update({
+    where: { email: email.toLowerCase().trim() },
+    data: { verificationCode: code, verificationCodeExpiry: new Date(Date.now() + 15 * 60 * 1000) },
+  });
+}
+
+export async function verifyEmailCode(email: string, code: string): Promise<{ ok: true } | { ok: false; error: string }> {
+  const user = await db.user.findUnique({ where: { email: email.toLowerCase().trim() } });
+  if (!user) return { ok: false, error: "No account found." };
+  if (user.emailVerifiedAt) return { ok: false, error: "Email already verified." };
+  if (!user.verificationCode || !user.verificationCodeExpiry) return { ok: false, error: "No verification code pending. Request a new one." };
+  if (new Date() > user.verificationCodeExpiry) return { ok: false, error: "Verification code expired. Request a new one." };
+  if (user.verificationCode !== code) return { ok: false, error: "Incorrect verification code." };
+  await db.user.update({
+    where: { id: user.id },
+    data: { emailVerifiedAt: new Date(), verificationCode: null, verificationCodeExpiry: null },
+  });
+  return { ok: true };
+}
