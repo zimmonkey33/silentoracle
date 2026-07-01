@@ -111,11 +111,9 @@ export function AuthPage() {
               <div>→ Unlimited Oracle AI queries</div>
               <div>→ Unlimited Analyzer searches</div>
             </div>
-            <OracleButton onClick={whopLogin} disabled={loading}>* SIGN IN WITH WHOP</OracleButton>
-            <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-              <OracleOutlineButton color={T.orange} style={{ flex: 1 }} onClick={() => setMode("signup")} disabled={loading}>PIN SIGNUP</OracleOutlineButton>
-              <OracleOutlineButton color={T.orange} style={{ flex: 1 }} onClick={() => setMode("signin")} disabled={loading}>PIN SIGNIN</OracleOutlineButton>
-            </div>
+            <OracleButton onClick={() => setMode("signup")} disabled={loading}>* CREATE ACCOUNT</OracleButton>
+            <OracleOutlineButton color={T.orange} onClick={() => setMode("signin")} disabled={loading}>SIGN IN</OracleOutlineButton>
+            <OracleOutlineButton color={T.textDim} onClick={whopLogin} disabled={loading}>WHOP SIGN IN</OracleOutlineButton>
             <button onClick={continueAsGuest} style={{ display: "block", margin: "16px auto 0", background: "none", border: "none", color: T.textDim, fontSize: 11, cursor: "pointer", fontFamily: "inherit" }}>Continue as guest (explore tools — no Oracle AI)</button>
           </div>
         )}

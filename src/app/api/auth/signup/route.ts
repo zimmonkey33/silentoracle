@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createDemoUser, generateVerificationCode, setVerificationCode, isWhopConfigured } from "@/lib/auth";
+import { createDemoUser, generateVerificationCode, setVerificationCode } from "@/lib/auth";
 import { sendVerificationCode } from "@/lib/email";
 export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
-  if (isWhopConfigured()) return NextResponse.json({ error: "Sign-up is handled via Whop." }, { status: 400 });
   const body = await req.json();
   const email = body.email?.toLowerCase().trim();
   const name = body.name?.trim();
