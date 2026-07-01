@@ -52,23 +52,25 @@ export function buildCheckoutUrl(returnPath: string = "/", planId?: string): str
 
 export async function verifyMembershipByEmail(email: string): Promise<boolean | "permission_denied"> {
   const apiKey = process.env.WHOP_API_KEY!;
-  const planId = process.env.WHOP_PLAN_ID;
-  if (!planId) return false;
+  const planIds = [process.env.WHOP_PLAN_ID, process.env.WHOP_YEARLY_PLAN_ID].filter(Boolean);
+  if (planIds.length === 0) return false;
   try {
-    let page = 1;
-    while (page <= 5) {
-      const params = new URLSearchParams({ status: "active", plan_id: planId, page: String(page), per_page: "50" });
-      const res = await fetch(`${WHOP_API_BASE}/memberships?${params}`, { headers: { Authorization: `Bearer ${apiKey}` } });
-      if (res.status === 401) return "permission_denied";
-      if (!res.ok) return false;
-      const data = await res.json();
-      const memberships = data?.data ?? [];
-      if (memberships.length === 0) break;
-      for (const m of memberships) {
-        if (m?.user?.email?.toLowerCase().trim() === email.toLowerCase().trim()) return true;
+    for (const planId of planIds) {
+      let page = 1;
+      while (page <= 5) {
+        const params = new URLSearchParams({ status: "active", plan_id: planId!, page: String(page), per_page: "50" });
+        const res = await fetch(`${WHOP_API_BASE}/memberships?${params}`, { headers: { Authorization: `Bearer ${apiKey}` } });
+        if (res.status === 401) return "permission_denied";
+        if (!res.ok) break;
+        const data = await res.json();
+        const memberships = data?.data ?? [];
+        if (memberships.length === 0) break;
+        for (const m of memberships) {
+          if (m?.user?.email?.toLowerCase().trim() === email.toLowerCase().trim()) return true;
+        }
+        if (!data?.has_more || page >= (data?.total_pages ?? 1)) break;
+        page++;
       }
-      if (!data?.has_more || page >= (data?.total_pages ?? 1)) break;
-      page++;
     }
     return false;
   } catch { return false; }
