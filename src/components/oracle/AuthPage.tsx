@@ -106,7 +106,7 @@ export function AuthPage() {
               <div style={{ color: T.orange, fontWeight: "bold", marginBottom: 6, letterSpacing: "1px" }}>FREE TIER</div>
               <div>→ 3 Oracle AI queries (lifetime)</div>
               <div>→ Full numerology profile + daily energy</div>
-              <div>→ Entity database (1,000+ entries)</div>
+              <div>→ Entity database (20 random entries — Pro unlocks all 1,000+)</div>
               <div style={{ color: T.green, fontWeight: "bold", marginTop: 8, letterSpacing: "1px" }}>ORACLE PRO — $8/month</div>
               <div>→ Unlimited Oracle AI queries</div>
               <div>→ Unlimited Analyzer searches</div>

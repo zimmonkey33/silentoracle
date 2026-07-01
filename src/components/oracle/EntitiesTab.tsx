@@ -48,12 +48,13 @@ interface SavedEntity {
 export function EntitiesTab({ profile }: { profile: OracleProfile | null }) {
   const { state } = useAuth();
   const [showPaywall, setShowPaywall] = useState(false);
-  const isPro = state.user.isSubscribed;
+  const isPro = state.user.isSubscribed || state.user.isAdmin;
   const [search, setSearch] = useState("");
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [result, setResult] = useState<EntityResult | null>(null);
   const [saved, setSaved] = useState<SavedEntity[]>([]);
+  const FREE_LIMIT = 20;
 
   // Load saved entities on mount (deferred to avoid hydration mismatch — localStorage is client-only)
   useEffect(() => {
@@ -67,16 +68,30 @@ export function EntitiesTab({ profile }: { profile: OracleProfile | null }) {
     }
   }, []);
 
+  // Free users get a random 20 entities (shuffled on each mount)
+  const visibleEntities = useMemo(() => {
+    if (isPro) return ENTITIES;
+    const shuffled = [...ENTITIES];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, FREE_LIMIT);
+  }, [isPro]);
+
+  const totalCount = isPro ? ENTITIES.length : FREE_LIMIT;
+
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    if (!q) return ENTITIES.slice(0, 50);
-    return ENTITIES.filter(
+    if (!q) return isPro ? ENTITIES.slice(0, 50) : visibleEntities;
+    const pool = isPro ? ENTITIES : visibleEntities;
+    return pool.filter(
       (e) =>
         e.name.toLowerCase().includes(q) ||
         e.type.toLowerCase().includes(q) ||
         e.notes.toLowerCase().includes(q)
-    ).slice(0, 100);
-  }, [search]);
+    ).slice(0, isPro ? 100 : FREE_LIMIT);
+  }, [search, isPro, visibleEntities]);
 
   function readEntity(entry: EntityEntry | { name: string; date: string; type?: string }) {
     const parsed = parseEntityDate(entry.date);
@@ -125,7 +140,7 @@ export function EntitiesTab({ profile }: { profile: OracleProfile | null }) {
     <div>
       {/* Search */}
       <OracleCard>
-        <OracleLabel>SEARCH ENTITY DATABASE — {ENTITIES.length.toLocaleString()} ENTRIES</OracleLabel>
+        <OracleLabel>SEARCH ENTITY DATABASE — {totalCount.toLocaleString()}{!isPro ? ` (${ENTITIES.length.toLocaleString()} total — Pro to unlock all)` : ""} ENTRIES</OracleLabel>
         <OracleInput
           type="text"
           placeholder="Search by name, type, or notes — e.g. 'Bitcoin', 'Tech', 'founded June 2009'..."
@@ -133,7 +148,7 @@ export function EntitiesTab({ profile }: { profile: OracleProfile | null }) {
           onChange={(e) => setSearch(e.target.value)}
         />
         <p style={{ fontSize: "10px", color: T.textDim, marginTop: "8px" }}>
-          Showing {filtered.length} of {ENTITIES.length} entities. Click any entity to analyze its numerology.
+          Showing {filtered.length} of {totalCount} entities{!isPro ? " (random sample — upgrade to Pro for full access)" : ""}. Click any entity to analyze its numerology.
         </p>
       </OracleCard>
 
@@ -311,7 +326,7 @@ export function EntitiesTab({ profile }: { profile: OracleProfile | null }) {
               The custom date analyzer is an <strong style={{ color: T.orange }}>Oracle Pro</strong> feature.
             </p>
             <OracleButton onClick={() => setShowPaywall(true)} color={T.orange}>* UPGRADE TO PRO</OracleButton>
-            <p style={{ fontSize: "10px", color: T.textDim, marginTop: "8px" }}>Browse the 1,000+ entity database above for free.</p>
+            <p style={{ fontSize: "10px", color: T.textDim, marginTop: "8px" }}>Browse {FREE_LIMIT} random entities above for free — upgrade to Pro for the full database.</p>
           </div>
         )}
       </OracleCard>
