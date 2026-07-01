@@ -56,6 +56,8 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         model: "openai/gpt-4o",
         max_tokens: 600,
+        temperature: 0.3,
+        provider: { order: ["OpenAI"] },
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: `${ctx}\n\nUser question: ${body.question.trim()}` },
