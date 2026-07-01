@@ -107,9 +107,10 @@ export function AuthPage() {
               <div>→ 3 Oracle AI queries (lifetime)</div>
               <div>→ Full numerology profile + daily energy</div>
               <div>→ Entity database (20 random entries — Pro unlocks all 1,000+)</div>
-              <div style={{ color: T.green, fontWeight: "bold", marginTop: 8, letterSpacing: "1px" }}>ORACLE PRO — $8/month</div>
+              <div style={{ color: T.green, fontWeight: "bold", marginTop: 8, letterSpacing: "1px" }}>ORACLE PRO</div>
               <div>→ Unlimited Oracle AI queries</div>
               <div>→ Unlimited Analyzer searches</div>
+              <div style={{ fontSize: 10, color: T.textDim, marginTop: 4 }}>$8/month or $71/year (save 26%)</div>
             </div>
             <OracleButton onClick={() => setMode("signup")} disabled={loading}>* CREATE ACCOUNT</OracleButton>
             <OracleOutlineButton color={T.orange} onClick={() => setMode("signin")} disabled={loading}>SIGN IN</OracleOutlineButton>

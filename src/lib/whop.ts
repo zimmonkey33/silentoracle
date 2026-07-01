@@ -43,11 +43,11 @@ export async function isUserSubscribed(accessToken: string): Promise<boolean> {
   return memberships.some((m: any) => m.status === "active");
 }
 
-export function buildCheckoutUrl(returnPath: string = "/"): string {
-  const planId = process.env.WHOP_PLAN_ID!;
+export function buildCheckoutUrl(returnPath: string = "/", planId?: string): string {
+  const pid = planId || process.env.WHOP_PLAN_ID!;
   const redirect = `${getAppUrl()}${returnPath}`;
   const params = new URLSearchParams({ redirect });
-  return `${WHOP_CHECKOUT_BASE}/${planId}?${params.toString()}`;
+  return `${WHOP_CHECKOUT_BASE}/${pid}?${params.toString()}`;
 }
 
 export async function verifyMembershipByEmail(email: string): Promise<boolean | "permission_denied"> {
