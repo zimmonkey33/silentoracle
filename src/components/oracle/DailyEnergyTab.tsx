@@ -32,6 +32,7 @@ export function DailyEnergyTab() {
   const secondary = calcSecondaryEnergy(now);
   const todayZodiac = getZodiac(now.getMonth() + 1, now.getDate(), now.getFullYear());
   const info = DAILY_DESC[primary];
+  const secondaryDesc = DAILY_DESC[secondary];
   const lpInfo = LP[primary] || LP[reduceLP(primary)];
   const secondaryInfo = LP[secondary] || LP[reduceLP(secondary)];
 
@@ -98,6 +99,24 @@ export function DailyEnergyTab() {
             Avoid: {info?.avoid}
           </p>
         </div>
+
+        {secondaryDesc && (
+          <div style={{ marginTop: 24, paddingTop: 20, borderTop: `1px solid ${T.border}33` }}>
+            <div style={{ fontSize: "10px", color: T.textDim, letterSpacing: "2px", marginBottom: 8 }}>
+              SECONDARY ENERGY · {secondary}
+            </div>
+            <div style={{ fontSize: "14px", fontWeight: "bold", color: T.orangeHi, letterSpacing: "1px", marginBottom: 6 }}>
+              {secondaryDesc.energy}
+            </div>
+            <p style={{ fontSize: "12px", lineHeight: 1.6, color: T.textMid, marginBottom: 10 }}>
+              {secondaryDesc.desc}
+            </p>
+            <div style={{ display: "flex", gap: 12, fontSize: "11px" }}>
+              <span style={{ color: T.green }}>→ {secondaryDesc.action}</span>
+              <span style={{ color: T.red }}>Avoid: {secondaryDesc.avoid}</span>
+            </div>
+          </div>
+        )}
       </OracleCard>
 
       {/* Primary vs Secondary energy */}
