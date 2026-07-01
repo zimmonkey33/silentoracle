@@ -20,7 +20,7 @@ export function PaywallModal({ open, onClose, feature, used, limit }: PaywallPro
     setError(null);
     if (!state.user.isSignedIn) { onClose(); setShowAuthView(true); return; }
     setLoading(true);
-    try { const r = await activatePro(selectedPlan); if (!r.ok) { setError(r.error || "Upgrade failed."); return; } if (r.checkoutUrl) { window.location.href = r.checkoutUrl; return; } await refresh(); onClose(); } finally { setLoading(false); }
+    try { const r = await activatePro(selectedPlan); if (!r.ok) { setError(r.error || "Upgrade failed."); return; } if (r.checkoutUrl) { window.location.href = r.checkoutUrl; return; } await refresh(); onClose(); } catch { setError("Something went wrong. Try again."); } finally { setLoading(false); }
   }
 
   return (
