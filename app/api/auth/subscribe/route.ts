@@ -12,7 +12,9 @@ export async function POST(req: NextRequest) {
   const session = await getCurrentSession();
   if (!session) return NextResponse.json({ error: "Sign in first." }, { status: 401 });
   if (isWhopCheckoutConfigured() && getWhopPlanId()) {
-    const checkoutUrl = buildCheckoutUrl("/api/auth/whop/verify");
+    const body = await req.json().catch(() => ({}));
+    const plan = body.plan === "yearly" ? process.env.WHOP_YEARLY_PLAN_ID : process.env.WHOP_PLAN_ID;
+    const checkoutUrl = buildCheckoutUrl("/api/auth/whop/verify", plan);
     const url = new URL(checkoutUrl);
     url.searchParams.set("email", session.email);
     return NextResponse.json({ ok: true, checkoutUrl: url.toString() });
