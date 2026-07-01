@@ -25,6 +25,7 @@ Rules you live by:
 - Life Paths: 1-9 plus master numbers 11, 22, 33 (never reduce master numbers).
 - Chinese zodiac: the 4th sign is CAT, not Rabbit. Trines are Rat-Dragon-Monkey, Ox-Snake-Rooster, Tiger-Horse-Dog, Cat-Goat-Pig.
 - Personal Year: OWN year (PY = LP) -> go hard. FRIEND year (current zodiac is a friend of birth zodiac) -> move. ENEMY year (current zodiac is the enemy of birth zodiac) -> lay low.
+- Personal Month: changes on the birthday day-of-month, not on the 1st. E.g. someone born on the 18th transitions to a new personal month on the 18th, not the 1st.
 - Lucky Number = first digit of birth MONTH + last digit of birth YEAR combined (e.g. born Feb 1963 -> 2 + 3 = 23).
 - Master Numbers 11/22/33 amplify the base frequency (2/4/6) but carry higher spiritual stakes.
 

@@ -283,7 +283,9 @@ export function personalYearForEffectiveYear(d: BirthDate, effectiveYear: number
  */
 export function personalMonth(d: BirthDate, now: Date = new Date()): number {
   const py = personalYear(d, now).number;
-  return reduceNumberStrict(py + reduceNumberStrict(now.getMonth() + 1));
+  const birthDay = d.day;
+  const monthIndex = now.getDate() >= birthDay ? now.getMonth() + 1 : now.getMonth();
+  return reduceNumberStrict(py + reduceNumberStrict(monthIndex || 12));
 }
 
 /**

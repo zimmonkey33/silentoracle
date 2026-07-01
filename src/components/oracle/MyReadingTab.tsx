@@ -50,7 +50,8 @@ export function buildProfile(ds: string): OracleProfile | null {
   const now = new Date();
   const lp = calcLP(m, d, y);
   const py = calcPersonalYear(m, d, now);
-  const pm = calcPersonalMonth(py, now.getMonth() + 1);
+  const effectiveMonth = now.getDate() >= d ? now.getMonth() + 1 : now.getMonth() || 12;
+  const pm = calcPersonalMonth(py, effectiveMonth);
   const bz = getZodiac(m, d, y);
   const yz = getZodiac(now.getMonth() + 1, now.getDate(), now.getFullYear());
   const wz = getWesternZodiac(m, d);
