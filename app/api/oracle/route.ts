@@ -45,14 +45,16 @@ export async function POST(req: NextRequest) {
       ? `User profile: born ${body.profile.birthDate ?? "unknown"}. Life Path ${body.profile.lifePath}${body.profile.lifePathTitle ? ` (${body.profile.lifePathTitle})` : ""}. Chinese zodiac: Year of the ${body.profile.chineseZodiac ?? "unknown"}. Personal Year ${body.profile.personalYear} (${body.profile.yearStatusLabel ?? ""}). Personal Month ${body.profile.personalMonth}${body.profile.personalMonthLabel ? ` (${body.profile.personalMonthLabel})` : ""}. Lucky number: ${body.profile.luckyNumber}${body.profile.luckyBreakdown ? ` (${body.profile.luckyBreakdown})` : ""}.`
       : "No birth date set -- give general numerology guidance, then invite the user to enter their birth date for personalized readings.";
 
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        "HTTP-Referer": "https://silentoracle-phi.vercel.app",
+        "X-Title": "Silent Oracle",
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "openai/gpt-4o",
         max_tokens: 600,
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
@@ -63,7 +65,7 @@ export async function POST(req: NextRequest) {
 
     if (!res.ok) {
       const errBody = await res.text();
-      return NextResponse.json({ error: `OpenAI ${res.status}: ${errBody}` }, { status: 502 });
+      return NextResponse.json({ error: `OpenRouter ${res.status}: ${errBody}` }, { status: 502 });
     }
 
     const data = await res.json();
