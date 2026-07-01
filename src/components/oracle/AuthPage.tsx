@@ -23,6 +23,8 @@ export function AuthPage() {
   function close() { setShowAuthView(false); setMode("welcome"); setError(null); setLoading(false); }
   function continueAsGuest() { try { localStorage.setItem("so_auth_dismissed", "1"); } catch {} close(); }
 
+  function whopLogin() { window.location.href = "/api/auth/whop/login"; }
+
   async function handleSignUp() {
     setError(null);
     if (!suName.trim()) return setError("Enter your name.");
@@ -33,7 +35,10 @@ export function AuthPage() {
     setLoading(true);
     const r = await demoSignUp({ email: suEmail, name: suName, birthdate: suBirth, pin: suPin });
     setLoading(false);
-    if (!r.ok) return setError(r.error || "Sign-up failed.");
+    if (!r.ok) {
+      if (r.error?.includes("Whop")) return whopLogin();
+      return setError(r.error || "Sign-up failed.");
+    }
     setVerifyEmail(suEmail);
     setMode("verify");
     setError(null);
@@ -47,6 +52,7 @@ export function AuthPage() {
     const r = await demoSignIn({ email: siEmail, pin: siPin });
     setLoading(false);
     if (!r.ok) {
+      if (r.error?.includes("Whop")) return whopLogin();
       if ((r as any).requiresVerification) {
         setVerifyEmail(siEmail);
         setMode("verify");
@@ -105,8 +111,11 @@ export function AuthPage() {
               <div>→ Unlimited Oracle AI queries</div>
               <div>→ Unlimited Analyzer searches</div>
             </div>
-            <OracleButton onClick={() => setMode("signup")} disabled={loading}>* CREATE ACCOUNT</OracleButton>
-            <OracleOutlineButton color={T.orange} onClick={() => setMode("signin")} disabled={loading}>SIGN IN</OracleOutlineButton>
+            <OracleButton onClick={whopLogin} disabled={loading}>* SIGN IN WITH WHOP</OracleButton>
+            <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+              <OracleOutlineButton color={T.orange} style={{ flex: 1 }} onClick={() => setMode("signup")} disabled={loading}>PIN SIGNUP</OracleOutlineButton>
+              <OracleOutlineButton color={T.orange} style={{ flex: 1 }} onClick={() => setMode("signin")} disabled={loading}>PIN SIGNIN</OracleOutlineButton>
+            </div>
             <button onClick={continueAsGuest} style={{ display: "block", margin: "16px auto 0", background: "none", border: "none", color: T.textDim, fontSize: 11, cursor: "pointer", fontFamily: "inherit" }}>Continue as guest (explore tools — no Oracle AI)</button>
           </div>
         )}
