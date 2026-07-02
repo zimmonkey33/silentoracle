@@ -1,32 +1,71 @@
 import { getAppUrl } from "./auth";
 
-const WHOP_OAUTH_AUTHORIZE = "https://whop.com/oauth/authorize";
-const WHOP_OAUTH_TOKEN = "https://api.whop.com/api/v2/oauth/token";
+const WHOP_OAUTH_AUTHORIZE = "https://api.whop.com/oauth/authorize";
+const WHOP_OAUTH_TOKEN = "https://api.whop.com/oauth/token";
+const WHOP_OAUTH_USERINFO = "https://api.whop.com/oauth/userinfo";
 const WHOP_API_BASE = "https://api.whop.com/api/v2";
 const WHOP_CHECKOUT_BASE = "https://whop.com/checkout";
 
-export function buildAuthorizeUrl(state: string): string {
+function base64url(bytes: Uint8Array): string {
+  return Buffer.from(bytes).toString("base64url");
+}
+
+export function generateCodeVerifier(): string {
+  return base64url(crypto.getRandomValues(new Uint8Array(32)));
+}
+
+export async function generateCodeChallenge(verifier: string): Promise<string> {
+  const enc = new TextEncoder();
+  const digest = await crypto.subtle.digest("SHA-256", enc.encode(verifier));
+  return base64url(new Uint8Array(digest));
+}
+
+export function buildAuthorizeUrl(state: string, codeChallenge: string): string {
   const clientId = process.env.WHOP_CLIENT_ID!;
   const redirectUri = `${getAppUrl()}/api/auth/whop/callback`;
-  const params = new URLSearchParams({ client_id: clientId, redirect_uri: redirectUri, response_type: "code", state, scope: "identity:read" });
+  const params = new URLSearchParams({
+    response_type: "code",
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    scope: "openid profile email",
+    state,
+    code_challenge: codeChallenge,
+    code_challenge_method: "S256",
+  });
   return `${WHOP_OAUTH_AUTHORIZE}?${params.toString()}`;
 }
 
-export async function exchangeCodeForToken(code: string) {
+export async function exchangeCodeForToken(code: string, codeVerifier: string) {
+  const redirectUri = `${getAppUrl()}/api/auth/whop/callback`;
   const res = await fetch(WHOP_OAUTH_TOKEN, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ client_id: process.env.WHOP_CLIENT_ID!, client_secret: process.env.WHOP_CLIENT_SECRET!, grant_type: "authorization_code", code, redirect_uri: `${getAppUrl()}/api/auth/whop/callback` }),
+    body: JSON.stringify({
+      grant_type: "authorization_code",
+      code,
+      redirect_uri: redirectUri,
+      client_id: process.env.WHOP_CLIENT_ID!,
+      code_verifier: codeVerifier,
+    }),
   });
   if (!res.ok) return null;
   return res.json();
 }
 
-export async function getWhopUser(accessToken: string) {
-  const res = await fetch(`${WHOP_API_BASE}/users/me`, { headers: { Authorization: `Bearer ${accessToken}` } });
+export interface WhopUserInfo {
+  sub: string;
+  name?: string;
+  preferred_username?: string;
+  email?: string;
+  email_verified?: boolean;
+}
+
+export async function getWhopUser(accessToken: string): Promise<WhopUserInfo | null> {
+  const res = await fetch(WHOP_OAUTH_USERINFO, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
   if (!res.ok) return null;
-  const data = await res.json();
-  return data?.data ?? data;
+  return res.json();
 }
 
 export async function getWhopMemberships(accessToken: string) {
@@ -38,8 +77,8 @@ export async function getWhopMemberships(accessToken: string) {
 
 export async function isUserSubscribed(accessToken: string): Promise<boolean> {
   const memberships = await getWhopMemberships(accessToken);
-  const planId = process.env.WHOP_PLAN_ID;
-  if (planId) return memberships.some((m: any) => m.status === "active" && m.plan_id === planId);
+  const planIds = [process.env.WHOP_PLAN_ID, process.env.WHOP_YEARLY_PLAN_ID].filter(Boolean);
+  if (planIds.length > 0) return memberships.some((m: any) => m.status === "active" && planIds.includes(m.plan_id));
   return memberships.some((m: any) => m.status === "active");
 }
 

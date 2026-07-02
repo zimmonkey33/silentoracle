@@ -151,7 +151,7 @@ export default function Home() {
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-balance text-sm sm:text-base" style={{ color: T.textMid }}>
           {mode === "oracle" ? (
-            <>Build your <strong style={{ color: T.orange }}>personal numerology profile</strong>, track <strong style={{ color: T.orange }}>daily energy</strong>, check <strong style={{ color: T.orange }}>compatibility</strong>, browse <strong style={{ color: T.orange }}>1,000+ entities</strong>, and ask the <strong style={{ color: T.orange }}>Oracle AI</strong> for guidance.</>
+            <>Build your <strong style={{ color: T.orange }}>personal numerology profile</strong>, track <strong style={{ color: T.orange }}>daily energy</strong>, check <strong style={{ color: T.orange }}>compatibility</strong>, browse <strong style={{ color: T.orange }}>{authState.user.isSubscribed ? "1,000+ entities" : "20 sample entities"}</strong>{authState.user.isSubscribed ? "" : " (Pro unlocks all 1,000+)"}, and ask the <strong style={{ color: T.orange }}>Oracle AI</strong> for guidance.</>
           ) : (
             <>Analyze a <strong style={{ color: T.orange }}>person</strong>, <strong style={{ color: T.orange }}>company</strong>, <strong style={{ color: T.orange }}>country</strong>, or <strong style={{ color: T.orange }}>sports event</strong> — numerology + Chinese zodiac analysis.</>
           )}
@@ -190,9 +190,8 @@ export default function Home() {
         <>
           <section id="analyzer-input" className="mx-auto w-full max-w-4xl px-4 pb-10">
             {!authState.user.isSubscribed && (
-              <div className="mb-4 flex items-center justify-between gap-3 rounded-md p-3 text-xs flex-wrap" style={{ background: `${T.red}11`, border: `1px solid ${T.red}55` }}>
-                <span style={{ color: T.textMid }}><strong style={{ color: T.red }}>🔒 ANALYZER IS PRO-ONLY</strong> — Upgrade for unlimited searches.</span>
-                <button onClick={() => setPaywall({ feature: "analyzer" })} style={{ background: `linear-gradient(135deg, ${T.orange}, ${T.orange}bb)`, border: "none", color: "#000", fontSize: "10px", letterSpacing: "1px", fontWeight: 900, padding: "6px 12px", borderRadius: "5px", cursor: "pointer", fontFamily: "inherit" }} className="hover:opacity-85">* UPGRADE TO PRO</button>
+              <div className="mb-4 rounded-md p-3 text-xs" style={{ background: `${T.red}11`, border: `1px solid ${T.red}55`, color: T.textMid }}>
+                <strong style={{ color: T.red }}>🔒 ANALYZER IS PRO-ONLY</strong> — This feature works with an active Oracle Pro subscription.
               </div>
             )}
             {authState.user.isSubscribed && (

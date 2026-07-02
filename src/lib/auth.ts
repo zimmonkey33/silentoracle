@@ -10,7 +10,11 @@ export function isWhopConfigured(): boolean { return Boolean(process.env.WHOP_CL
 export function isWhopCheckoutConfigured(): boolean { return Boolean(process.env.WHOP_PLAN_ID); }
 export function isWhopApiConfigured(): boolean { return Boolean(process.env.WHOP_API_KEY); }
 export function getWhopPlanId(): string | undefined { return process.env.WHOP_PLAN_ID || undefined; }
-export function getAppUrl(): string { return process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"; }
+export function getAppUrl(): string {
+  return process.env.NEXT_PUBLIC_APP_URL
+    || (typeof process !== "undefined" && process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined)
+    || "http://localhost:3000";
+}
 
 function b64url(input: Uint8Array | string): string { const bytes = typeof input === "string" ? new TextEncoder().encode(input) : input; return Buffer.from(bytes).toString("base64url"); }
 function b64urlDecode(input: string): string { return Buffer.from(input, "base64url").toString("utf8"); }

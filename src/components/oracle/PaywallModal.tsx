@@ -2,25 +2,27 @@
 import { useEffect, useState } from "react";
 import { T } from "@/lib/oracle/theme";
 import { OracleButton, OracleOutlineButton } from "./primitives";
-import { useAuth } from "./auth";
+import { useAuth, activatePro } from "./auth";
 
 interface PaywallProps { open: boolean; onClose: () => void; feature: "oracle" | "analyzer"; used?: number; limit?: number; resetsAt?: string; }
-
-const CHECKOUT_BASE = "https://whop.com/checkout";
 
 export function PaywallModal({ open, onClose, feature, used, limit }: PaywallProps) {
   const { state, setShowAuthView } = useAuth();
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<string | null>(null);
 
-  useEffect(() => { if (!open) return; function onKey(e: KeyboardEvent) { if (e.key === "Escape") onClose(); } window.addEventListener("keydown", onKey); const prev = document.body.style.overflow; document.body.style.overflow = "hidden"; return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = prev; }; }, [open, onClose]);
+  useEffect(() => { if (!open) return; setError(null); setLoading(null); function onKey(e: KeyboardEvent) { if (e.key === "Escape") onClose(); } window.addEventListener("keydown", onKey); const prev = document.body.style.overflow; document.body.style.overflow = "hidden"; return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = prev; }; }, [open, onClose]);
   if (!open) return null;
   const featureLabel = feature === "oracle" ? "Oracle queries" : "Analyzer searches";
 
-  function handleUpgrade(plan: "monthly" | "yearly") {
+  async function handleUpgrade(plan: "monthly" | "yearly") {
     if (!state.user.isSignedIn) { onClose(); setShowAuthView(true); return; }
-    const planId = plan === "yearly" ? "plan_AWBGeplyAlwQy" : "plan_m0wDrbw83zXDL";
-    const redirect = encodeURIComponent(`${window.location.origin}/api/auth/whop/verify?email=${encodeURIComponent(state.user.email || "")}`);
-    window.location.href = `${CHECKOUT_BASE}/${planId}?redirect=${redirect}`;
+    setLoading(plan);
+    setError(null);
+    const result = await activatePro(plan);
+    if (!result.ok) { setLoading(null); setError(result.error || "Something went wrong. Try again."); return; }
+    if (result.checkoutUrl) { window.location.href = result.checkoutUrl; return; }
+    setLoading(null); setError("Failed to create checkout link.");
   }
 
   return (
@@ -33,28 +35,28 @@ export function PaywallModal({ open, onClose, feature, used, limit }: PaywallPro
         </p>
         <div className="grid grid-cols-2 gap-2" style={{ marginBottom: "18px" }}>
           <div
-            onClick={() => handleUpgrade("monthly")}
+            onClick={() => { if (!loading) handleUpgrade("monthly"); }}
             style={{
               background: `${T.orange}11`,
-              border: `2px solid ${T.border}`,
-              borderRadius: "10px", padding: "18px 10px", cursor: "pointer", textAlign: "center",
+              border: `2px solid ${loading === "monthly" ? T.orange : T.border}`,
+              borderRadius: "10px", padding: "18px 10px", cursor: loading ? "default" : "pointer", textAlign: "center", opacity: loading && loading !== "monthly" ? 0.5 : 1,
             }}
-            className="hover:border-orange-500"
+            className={loading ? "" : "hover:border-orange-500"}
           >
-            <div style={{ fontSize: "28px", fontWeight: 900, color: T.orange, fontFamily: "Georgia, serif" }}>$8<span style={{ fontSize: "12px" }}>/mo</span></div>
+            <div style={{ fontSize: "28px", fontWeight: 900, color: T.orange, fontFamily: "Georgia, serif" }}>{loading === "monthly" ? "..." : `$8`}<span style={{ fontSize: "12px" }}>/mo</span></div>
             <div style={{ fontSize: "10px", color: T.textDim, marginTop: "4px" }}>Cancel anytime · Billed monthly</div>
           </div>
           <div
-            onClick={() => handleUpgrade("yearly")}
+            onClick={() => { if (!loading) handleUpgrade("yearly"); }}
             style={{
               background: `${T.orange}22`,
-              border: `2px solid ${T.orange}`,
-              borderRadius: "10px", padding: "18px 10px", cursor: "pointer", textAlign: "center", position: "relative",
+              border: `2px solid ${loading === "yearly" ? T.orange : T.orange}`,
+              borderRadius: "10px", padding: "18px 10px", cursor: loading ? "default" : "pointer", textAlign: "center", position: "relative", opacity: loading && loading !== "yearly" ? 0.5 : 1,
             }}
-            className="hover:border-orange-500"
+            className={loading ? "" : "hover:border-orange-500"}
           >
             <div style={{ position: "absolute", top: -8, left: "50%", transform: "translateX(-50%)", background: T.orange, color: "#000", fontSize: "9px", fontWeight: "bold", padding: "2px 8px", borderRadius: "8px", letterSpacing: "1px" }}>BEST VALUE</div>
-            <div style={{ fontSize: "28px", fontWeight: 900, color: T.orange, fontFamily: "Georgia, serif" }}>$71<span style={{ fontSize: "12px" }}>/yr</span></div>
+            <div style={{ fontSize: "28px", fontWeight: 900, color: T.orange, fontFamily: "Georgia, serif" }}>{loading === "yearly" ? "..." : `$71`}<span style={{ fontSize: "12px" }}>/yr</span></div>
             <div style={{ fontSize: "10px", color: "#888", marginTop: "4px" }}>$5.92/mo · Save 26% · Cancel anytime</div>
           </div>
         </div>

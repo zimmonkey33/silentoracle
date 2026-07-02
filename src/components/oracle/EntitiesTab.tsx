@@ -48,7 +48,7 @@ interface SavedEntity {
 export function EntitiesTab({ profile }: { profile: OracleProfile | null }) {
   const { state } = useAuth();
   const [showPaywall, setShowPaywall] = useState(false);
-  const isPro = state.user.isSubscribed || state.user.isAdmin;
+  const isPro = state.user.isSignedIn && (state.user.isSubscribed || state.user.isAdmin);
   const [search, setSearch] = useState("");
   const [name, setName] = useState("");
   const [date, setDate] = useState("");

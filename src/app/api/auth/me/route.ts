@@ -9,14 +9,16 @@ export async function GET(req: NextRequest) {
   const usage = await getUsageSnapshot(req);
   let birthdate: string | null = null;
   let isAdmin = false;
+  let isSubscribed = false;
   let emailVerified = true;
   if (session?.sub) {
-    const user = await db.user.findUnique({ where: { id: session.sub }, select: { birthdate: true, isAdmin: true, emailVerifiedAt: true } });
+    const user = await db.user.findUnique({ where: { id: session.sub }, select: { birthdate: true, isAdmin: true, isSubscribed: true, emailVerifiedAt: true } });
     birthdate = user?.birthdate ?? null;
     isAdmin = user?.isAdmin ?? false;
+    isSubscribed = user?.isSubscribed ?? false;
     emailVerified = user?.emailVerifiedAt !== null;
   }
-  const isUnlimited = session?.isSubscribed || isAdmin;
+  const isUnlimited = isSubscribed || isAdmin;
   return NextResponse.json({
     ok: true,
     user: session

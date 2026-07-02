@@ -22,7 +22,6 @@ export function AuthPage() {
 
   function close() { setShowAuthView(false); setMode("welcome"); setError(null); setLoading(false); }
   function continueAsGuest() { try { localStorage.setItem("so_auth_dismissed", "1"); } catch {} close(); }
-
   function whopLogin() { window.location.href = "/api/auth/whop/login"; }
 
   async function handleSignUp() {
@@ -36,7 +35,6 @@ export function AuthPage() {
     const r = await demoSignUp({ email: suEmail, name: suName, birthdate: suBirth, pin: suPin });
     setLoading(false);
     if (!r.ok) {
-      if (r.error?.includes("Whop")) return whopLogin();
       return setError(r.error || "Sign-up failed.");
     }
     setVerifyEmail(suEmail);
@@ -52,7 +50,6 @@ export function AuthPage() {
     const r = await demoSignIn({ email: siEmail, pin: siPin });
     setLoading(false);
     if (!r.ok) {
-      if (r.error?.includes("Whop")) return whopLogin();
       if ((r as any).requiresVerification) {
         setVerifyEmail(siEmail);
         setMode("verify");
