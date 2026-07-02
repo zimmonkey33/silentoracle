@@ -22,8 +22,6 @@ export function AuthPage() {
 
   function close() { setShowAuthView(false); setMode("welcome"); setError(null); setLoading(false); }
   function continueAsGuest() { try { localStorage.setItem("so_auth_dismissed", "1"); } catch {} close(); }
-  function whopLogin() { window.location.href = "/api/auth/whop/login"; }
-
   async function handleSignUp() {
     setError(null);
     if (!suName.trim()) return setError("Enter your name.");
@@ -111,7 +109,6 @@ export function AuthPage() {
             </div>
             <OracleButton onClick={() => setMode("signup")} disabled={loading}>* CREATE ACCOUNT</OracleButton>
             <OracleOutlineButton color={T.orange} onClick={() => setMode("signin")} disabled={loading}>SIGN IN</OracleOutlineButton>
-            <OracleOutlineButton color={T.textDim} onClick={whopLogin} disabled={loading}>WHOP SIGN IN</OracleOutlineButton>
             <button onClick={continueAsGuest} style={{ display: "block", margin: "16px auto 0", background: "none", border: "none", color: T.textDim, fontSize: 11, cursor: "pointer", fontFamily: "inherit" }}>Continue as guest (explore tools — no Oracle AI)</button>
           </div>
         )}
