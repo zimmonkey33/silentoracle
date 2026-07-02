@@ -12,6 +12,7 @@ export function isWhopApiConfigured(): boolean { return Boolean(process.env.WHOP
 export function getWhopPlanId(): string | undefined { return process.env.WHOP_PLAN_ID || undefined; }
 export function getAppUrl(): string {
   return process.env.NEXT_PUBLIC_APP_URL
+    || (typeof process !== "undefined" && process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : undefined)
     || (typeof process !== "undefined" && process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined)
     || "http://localhost:3000";
 }
