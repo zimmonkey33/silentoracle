@@ -86,7 +86,7 @@ export function OracleChatTab({ profile }: { profile: OracleProfile | null }) {
               <div>→ 3 Oracle AI queries (lifetime)</div>
               <div>→ Full numerology profile</div>
               <div>→ Daily energy + compatibility</div>
-              <div>→ 1,000+ entity database</div>
+              <div>→ 20 sample entities (Pro unlocks all 1,000+)</div>
             </div>
             <OracleButton onClick={() => setShowAuthView(true)} color={T.orange}>* SIGN UP — IT&apos;S FREE</OracleButton>
           </div>
