@@ -65,7 +65,7 @@ export function AuthPage() {
     setLoading(true);
     const r = await demoVerifyCode(verifyEmail, verifyCode);
     setLoading(false);
-    if (!r.ok) return setError(r.error || "Verification failed.");
+    if (!r.ok) { setVerifyCode(""); setError((r.error || "Verification failed.") + " Try again or request a new code."); return; }
     await refresh(); close();
   }
 
